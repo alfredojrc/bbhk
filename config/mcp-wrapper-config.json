@@ -1,0 +1,28 @@
+{
+  "qdrant-bbhk-fixed": {
+    "type": "wrapper",
+    "base": "qdrant-bbhk",
+    "overrides": {
+      "vector_name": "default",
+      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "vector_size": 384,
+      "distance": "cosine"
+    },
+    "transformations": {
+      "before_store": "normalize_vector_name",
+      "before_find": "normalize_vector_name",
+      "after_response": "handle_vector_errors"
+    }
+  },
+  "ruv-swarm-fixed": {
+    "type": "wrapper",
+    "base": "ruv-swarm",
+    "initialization": {
+      "pre_init": "setup_global_metrics",
+      "post_init": "verify_metrics_available"
+    },
+    "error_handlers": {
+      "getGlobalMetrics": "return_default_metrics"
+    }
+  }
+}

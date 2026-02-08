@@ -1,0 +1,152 @@
+[build-system]
+requires = ["setuptools>=75.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "bug-bounty-framework"
+version = "3.0.0"
+description = "AI-Augmented Bug Bounty Hunter Kit - Automated vulnerability research platform"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "BBHK Team", email = "contact@example.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Topic :: Security",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "aiohttp>=3.11.0",
+    "asyncio-throttle>=1.0.2",
+    "beautifulsoup4>=4.13.0",
+    "requests>=2.32.0",
+    "selenium>=4.28.0",
+    "websockets>=14.0",
+    "sqlalchemy>=2.0.38",
+    "alembic>=1.14.0",
+    "psycopg2-binary>=2.9.10",
+    "asyncpg>=0.30.0",
+    "hvac>=2.3.0",
+    "numpy>=2.2.0",
+    "pandas>=2.2.0",
+    "scikit-learn>=1.6.0",
+    "cryptography>=44.0.0",
+    "pycryptodome>=3.21.0",
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.34.0",
+    "jinja2>=3.1.0",
+    "redis>=5.2.0",
+    "celery>=5.4.0",
+    "pydantic>=2.10.0",
+    "python-dotenv>=1.0.0",
+    "toml>=0.10.0",
+    "ruamel.yaml>=0.18.0",
+    "click>=8.1.0",
+    "rich>=13.9.0",
+    "typer>=0.15.0",
+    "loguru>=0.7.0",
+    "structlog>=25.1.0",
+    "pyjwt>=2.10.0",
+    "passlib>=1.7.4",
+    "bcrypt>=4.2.0",
+    "aiofiles>=24.1.0",
+    "prometheus_client>=0.21.0",
+    "dnspython>=2.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.0",
+    "mypy>=1.15.0",
+]
+ml = [
+    "tensorflow>=2.18.0",
+    "torch>=2.5.0",
+    "transformers>=4.47.0",
+]
+browser = [
+    "selenium>=4.28.0",
+    "playwright>=1.49.0",
+]
+all = [
+    "bug-bounty-framework[dev,ml,browser]",
+]
+
+[project.scripts]
+bbhk = "src.main:cli"
+
+[project.urls]
+Homepage = "https://github.com/alfredojrc/bbhk"
+Repository = "https://github.com/alfredojrc/bbhk"
+Issues = "https://github.com/alfredojrc/bbhk/issues"
+
+[tool.setuptools.packages.find]
+include = ["src*", "core*", "platforms*", "config*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "S",   # flake8-bandit (security)
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "S101",  # use of assert (OK in tests)
+    "S108",  # hardcoded temp file (OK in our context)
+    "B008",  # function call in default arg (FastAPI Depends)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106"]
+"scripts/**" = ["S603", "S607"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*", "scripts/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 0
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.",
+    "if TYPE_CHECKING:",
+]

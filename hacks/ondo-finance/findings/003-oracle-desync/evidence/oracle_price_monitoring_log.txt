@@ -1,0 +1,28 @@
+[dotenv@17.2.1] injecting env (8) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+🌐 ORACLE DESYNC ARBITRAGE BOT
+NaN
+Target: Ondo Finance OUSG/USDY
+Strategy: Exploit oracle timing differences
+Expected Profit: $180k+ per day
+
+📦 Connected to Ethereum at block 23212666
+🤖 Initializing Oracle Arbitrage Bot...
+✅ Bot initialized
+👁️  Starting Oracle Monitoring Service
+NaN
+
+📡 Monitoring Iteration #1
+   Time: 2025-08-24T18:13:24.000Z
+   Chainlink: $1.0429
+   Internal: $1.0500
+   BUIDL: $1.0450
+   Max Divergence: 0.68%
+   ❌ No arbitrage opportunity
+
+📡 Monitoring Iteration #2
+   Time: 2025-08-24T18:13:54.000Z
+   Chainlink: $1.0467
+   Internal: $1.0500
+   BUIDL: $1.0450
+   Max Divergence: 0.48%
+   ❌ No arbitrage opportunity

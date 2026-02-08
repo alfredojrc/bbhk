@@ -1,0 +1,1046 @@
+scan_date: '2025-08-20T18:18:03.859665'
+total_programs_scanned: 32
+programs_with_bounties: 32
+programs_with_api: 29
+total_potential_value: $30200
+top_roi_programs:
+- handle: bookingcom
+  name: Booking.com
+  url: https://hackerone.com/bookingcom
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 160
+  matched_categories:
+  - booking
+  has_api: true
+  api_targets:
+  - asset: booking.com
+    type: URL
+    severity: critical
+  - asset: secure.booking.com
+    type: URL
+    severity: critical
+  - asset: careers.booking.com
+    type: URL
+    severity: critical
+  - asset: https://iphone-xml.booking.com/json/
+    type: URL
+    severity: critical
+  - asset: https://secure-iphone-xml.booking.com/json/
+    type: URL
+    severity: critical
+  - asset: account.booking.com
+    type: URL
+    severity: critical
+  - asset: kyc-onboarding.booking.com
+    type: URL
+    severity: critical
+  - asset: taxi.booking.com
+    type: URL
+    severity: critical
+  - asset: widget.rentalcars.com
+    type: URL
+    severity: critical
+  - asset: cars.booking.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:03.075673'
+  applicable_attacks:
+  - idor
+  - user_enum
+  - info_disclosure
+  - bac
+  estimated_value: 2750.0
+- handle: priceline
+  name: Priceline
+  url: https://hackerone.com/priceline
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 110
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: www.priceline.com
+    type: URL
+    severity: critical
+  - asset: secure.rezserver.com
+    type: URL
+    severity: critical
+  - asset: reservations.rezserver.com
+    type: URL
+    severity: critical
+  - asset: cruises.priceline.com
+    type: URL
+    severity: critical
+  - asset: www.airportrentalcars.com
+    type: URL
+    severity: none
+  - asset: www.bookingholdings.com
+    type: URL
+    severity: none
+  - asset: api.rezserver.com
+    type: URL
+    severity: critical
+  - asset: admin.rezserver.com
+    type: URL
+    severity: critical
+  - asset: press.priceline.com
+    type: URL
+    severity: medium
+  - asset: www.getaroom.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:47.961054'
+  applicable_attacks:
+  - idor
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  estimated_value: 2725.0
+- handle: adobe
+  name: Adobe
+  url: https://hackerone.com/adobe
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 25
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: account.adobe.com
+    type: URL
+    severity: critical
+  - asset: auth.services.adobe.com
+    type: URL
+    severity: critical
+  - asset: fonts.adobe.com
+    type: URL
+    severity: critical
+  - asset: marketplace.magento.com
+    type: URL
+    severity: critical
+  - asset: repo.magento.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:58.211604'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  - jwt_misconfiguration
+  estimated_value: 2500.0
+- handle: security
+  name: HackerOne
+  url: https://hackerone.com/security
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 110
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: hackerone.com
+    type: URL
+    severity: critical
+  - asset: support.hackerone.com
+    type: URL
+    severity: none
+  - asset: api.hackerone.com
+    type: URL
+    severity: critical
+  - asset: www.hackerone.com
+    type: URL
+    severity: critical
+  - asset: https://*.hackerone-user-content.com/
+    type: URL
+    severity: low
+  - asset: errors.hackerone.net
+    type: URL
+    severity: high
+  - asset: https://*.hackerone-ext-content.com
+    type: URL
+    severity: medium
+  - asset: app.pullrequest.com
+    type: URL
+    severity: critical
+  - asset: reviewer.pullrequest.com
+    type: URL
+    severity: critical
+  - asset: ctf.hacker101.com
+    type: URL
+    severity: low
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:43.536960'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  estimated_value: 1950.0
+- handle: snapchat
+  name: Snapchat
+  url: https://hackerone.com/snapchat
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 90
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: returns.spectacles.com
+    type: URL
+    severity: none
+  - asset: support.snapchat.com
+    type: URL
+    severity: none
+  - asset: www.bitmoji.com
+    type: URL
+    severity: medium
+  - asset: www.bitstrips.com
+    type: URL
+    severity: medium
+  - asset: scan.snapchat.com
+    type: URL
+    severity: low
+  - asset: kit.snapchat.com
+    type: URL
+    severity: high
+  - asset: snappublisher.snapchat.com
+    type: URL
+    severity: high
+  - asset: geofilters.snapchat.com
+    type: URL
+    severity: high
+  - asset: spectacles.com
+    type: URL
+    severity: low
+  - asset: accounts.snapchat.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:00.043971'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  estimated_value: 1950.0
+- handle: att
+  name: AT&T
+  url: https://hackerone.com/att
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 75
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: prod-taxexempt.att.com
+    type: URL
+    severity: none
+  - asset: projectone.att.com
+    type: URL
+    severity: none
+  - asset: c2m-projectone.att.com
+    type: URL
+    severity: none
+  - asset: wf-projectone.att.com
+    type: URL
+    severity: none
+  - asset: '*.sky.com.mx'
+    type: URL
+    severity: none
+  - asset: accbusinesspricing.att.com
+    type: URL
+    severity: none
+  - asset: rcloud.social
+    type: URL
+    severity: none
+  - asset: attdashboard.wireless.att.com
+    type: URL
+    severity: none
+  - asset: https://clec.att.com/clec/
+    type: URL
+    severity: none
+  - asset: attsuppliers.com
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:51.814348'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  estimated_value: 1925.0
+- handle: gitlab
+  name: GitLab
+  url: https://hackerone.com/gitlab
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 75
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: customers.gitlab.com
+    type: URL
+    severity: critical
+  - asset: registry.gitlab.com
+    type: URL
+    severity: critical
+  - asset: gitlab.com
+    type: URL
+    severity: critical
+  - asset: dashboards.gitlab.com
+    type: URL
+    severity: none
+  - asset: alerts.gitlab.com
+    type: URL
+    severity: none
+  - asset: support.gitlab.com
+    type: URL
+    severity: none
+  - asset: shop.gitlab.com
+    type: URL
+    severity: none
+  - asset: forum.gitlab.com
+    type: URL
+    severity: none
+  - asset: status.gitlab.com
+    type: URL
+    severity: none
+  - asset: partners.gitlab.com
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:54.959861'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  estimated_value: 1925.0
+- handle: vimeo
+  name: Vimeo
+  url: https://hackerone.com/vimeo
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 65
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: www.vimeo.com
+    type: URL
+    severity: critical
+  - asset: player.vimeo.com
+    type: URL
+    severity: critical
+  - asset: api.vimeo.com
+    type: URL
+    severity: critical
+  - asset: vimeopro.com
+    type: URL
+    severity: critical
+  - asset: http://vimeo.com/ondemand
+    type: URL
+    severity: critical
+  - asset: http://vimeo.com/api
+    type: URL
+    severity: critical
+  - asset: checkout.vimeo.com
+    type: URL
+    severity: critical
+  - asset: http://vimeo.com/create
+    type: URL
+    severity: critical
+  - asset: vimeo.magisto.com
+    type: URL
+    severity: critical
+  - asset: vimeo.atlassian.net
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:47.251461'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - mass_assignment
+  estimated_value: 1825.0
+- handle: airbnb
+  name: Airbnb
+  url: https://hackerone.com/airbnb
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 105
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: www.airbnb.com
+    type: URL
+    severity: critical
+  - asset: next.airbnb.com
+    type: URL
+    severity: critical
+  - asset: api.airbnb.com
+    type: URL
+    severity: critical
+  - asset: support-api.airbnb.com
+    type: URL
+    severity: critical
+  - asset: assets.airbnb.com
+    type: URL
+    severity: critical
+  - asset: m.airbnb.com
+    type: URL
+    severity: critical
+  - asset: one.airbnb.com
+    type: URL
+    severity: critical
+  - asset: open.airbnb.com
+    type: URL
+    severity: critical
+  - asset: callbacks.airbnb.com
+    type: URL
+    severity: critical
+  - asset: '*.airbnb.com'
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:03.437410'
+  applicable_attacks:
+  - user_enum
+  - ssrf
+  - info_disclosure
+  estimated_value: 1650.0
+- handle: uber
+  name: Uber
+  url: https://hackerone.com/uber
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 65
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: '*.uberscoot.us'
+    type: URL
+    severity: none
+  - asset: '*.ubertransit.io'
+    type: URL
+    severity: none
+  - asset: bizblog.uber.com
+    type: URL
+    severity: none
+  - asset: et.uber.com
+    type: URL
+    severity: none
+  - asset: newsroom.uber.com
+    type: URL
+    severity: none
+  - asset: eng.uber.com
+    type: URL
+    severity: none
+  - asset: people.uber.com
+    type: URL
+    severity: none
+  - asset: love.uber.com
+    type: URL
+    severity: none
+  - asset: drive.uber.com
+    type: URL
+    severity: none
+  - asset: uber.onelogin.com
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:57.738237'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - jwt_misconfiguration
+  estimated_value: 1500.0
+- handle: coinbase
+  name: Coinbase
+  url: https://hackerone.com/coinbase
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 80
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: '*.coinbase.com'
+    type: URL
+    severity: critical
+  - asset: '*.cbhq.net'
+    type: URL
+    severity: critical
+  - asset: pro.coinbase.com
+    type: URL
+    severity: critical
+  - asset: custody.coinbase.com
+    type: URL
+    severity: critical
+  - asset: commerce.coinbase.com
+    type: URL
+    severity: critical
+  - asset: prime.coinbase.com
+    type: URL
+    severity: critical
+  - asset: paradex.io
+    type: URL
+    severity: none
+  - asset: institutional.coinbase.com
+    type: URL
+    severity: critical
+  - asset: support.coinbase.com
+    type: URL
+    severity: none
+  - asset: blog.coinbase.com
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:50.529922'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: slack
+  name: Slack
+  url: https://hackerone.com/slack
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 75
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: slack.com
+    type: URL
+    severity: critical
+  - asset: api.slack.com
+    type: URL
+    severity: critical
+  - asset: status.slack.com
+    type: URL
+    severity: none
+  - asset: slackb.com
+    type: URL
+    severity: critical
+  - asset: app.slack.com
+    type: URL
+    severity: critical
+  - asset: edgeapi.slack.com
+    type: URL
+    severity: critical
+  - asset: slackatwork.com
+    type: URL
+    severity: critical
+  - asset: slack-redir.net
+    type: URL
+    severity: critical
+  - asset: slack-imgs.com
+    type: URL
+    severity: critical
+  - asset: spaces.pm
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:49.400027'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: kayak
+  name: KAYAK
+  url: https://hackerone.com/kayak
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 70
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: www.kayak.com
+    type: URL
+    severity: critical
+  - asset: www.swoodoo.com
+    type: URL
+    severity: critical
+  - asset: www.checkfelix.com
+    type: URL
+    severity: critical
+  - asset: klassereise.checkfelix.com
+    type: URL
+    severity: none
+  - asset: kayak.com/hotelowner/*
+    type: URL
+    severity: none
+  - asset: kayak.com/moira/ehoe/*
+    type: URL
+    severity: none
+  - asset: www.momondo.com
+    type: URL
+    severity: critical
+  - asset: www.cheapflights.com
+    type: URL
+    severity: critical
+  - asset: www.hotelscombined.com
+    type: URL
+    severity: critical
+  - asset: www.mundi.com.br
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:03.857440'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: greenhouse
+  name: Greenhouse.io
+  url: https://hackerone.com/greenhouse
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 60
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: app.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: www.greenhouse.io
+    type: URL
+    severity: high
+  - asset: boards.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: api.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: onboarding.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: support.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: community.greenhouse.io
+    type: URL
+    severity: none
+  - asset: resources.greenhouse.io
+    type: URL
+    severity: none
+  - asset: jss.greenhouse.io
+    type: URL
+    severity: critical
+  - asset: store.greenhouse.io
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:57.321780'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: automattic
+  name: Automattic
+  url: https://hackerone.com/automattic
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 55
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: api.tumblr.com
+    type: URL
+    severity: critical
+  - asset: safe.tumblr.com
+    type: URL
+    severity: critical
+  - asset: secure.tumblr.com
+    type: URL
+    severity: critical
+  - asset: assets.tumblr.com
+    type: URL
+    severity: critical
+  - asset: embed.tumblr.com
+    type: URL
+    severity: critical
+  - asset: www.tumblr.com
+    type: URL
+    severity: critical
+  - asset: t.umblr.com
+    type: URL
+    severity: critical
+  - asset: wordpress.com
+    type: URL
+    severity: critical
+  - asset: intensedebate.com
+    type: URL
+    severity: medium
+  - asset: simplenote.com
+    type: URL
+    severity: high
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:50.901747'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: cloudflare
+  name: Cloudflare Public Bug Bounty
+  url: https://hackerone.com/cloudflare
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 51
+  matched_categories:
+  - cloud
+  has_api: true
+  api_targets:
+  - asset: support.cloudflare.com
+    type: URL
+    severity: none
+  - asset: dash.cloudflare.com
+    type: URL
+    severity: critical
+  - asset: cloudflareworkers.com
+    type: URL
+    severity: critical
+  - asset: '*.teams.cloudflare.com'
+    type: URL
+    severity: critical
+  - asset: api.cloudflare.com
+    type: URL
+    severity: critical
+  - asset: '*.cloudflare.com'
+    type: URL
+    severity: critical
+  - asset: http://github.com/cloudflare
+    type: URL
+    severity: critical
+  - asset: community.cloudflare.com
+    type: URL
+    severity: none
+  - asset: support.cloudflarewarp.com
+    type: URL
+    severity: none
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:45.490293'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: airtable
+  name: Airtable
+  url: https://hackerone.com/airtable
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 45
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: staging.airtable.com
+    type: URL
+    severity: critical
+  - asset: blog.airtable.com
+    type: URL
+    severity: none
+  - asset: support.airtable.com
+    type: URL
+    severity: none
+  - asset: guide.airtable.com
+    type: URL
+    severity: none
+  - asset: airtable.com
+    type: URL
+    severity: none
+  - asset: dl.airtable.com
+    type: URL
+    severity: none
+  - asset: dl.getforma.com
+    type: URL
+    severity: none
+  - asset: community.airtable.com
+    type: URL
+    severity: none
+  - asset: api-staging.airtable.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:02.695440'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: wordpress
+  name: WordPress
+  url: https://hackerone.com/wordpress
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 40
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: api.wordpress.org
+    type: URL
+    severity: critical
+  - asset: codex.wordpress.org,codex.bbpress.org,codex.buddypress.org
+    type: URL
+    severity: medium
+  - asset: mercantile.wordpress.org
+    type: URL
+    severity: medium
+  - asset: irclogs.wordpress.org
+    type: URL
+    severity: low
+  - asset: lists.wordpress.org
+    type: URL
+    severity: medium
+  - asset: planet.wordpress.org
+    type: URL
+    severity: critical
+  - asset: status.wordpress.org,glotpress.blog,wordpress.tv
+    type: URL
+    severity: none
+  - asset: wordpressfoundation.org
+    type: URL
+    severity: medium
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:17:46.903876'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: ui
+  name: Ubiquiti Inc.
+  url: https://hackerone.com/ui
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 40
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: training.ui.com
+    type: URL
+    severity: medium
+  - asset: store.ui.com
+    type: URL
+    severity: critical
+  - asset: community.ui.com
+    type: URL
+    severity: critical
+  - asset: ir.ui.com
+    type: URL
+    severity: critical
+  - asset: forum-es.ui.com
+    type: URL
+    severity: none
+  - asset: forum-pt.ui.com
+    type: URL
+    severity: none
+  - asset: help.ui.com
+    type: URL
+    severity: critical
+  - asset: blog.ui.com
+    type: URL
+    severity: critical
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:02.325259'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+- handle: yelp
+  name: Yelp
+  url: https://hackerone.com/yelp
+  offers_bounties: true
+  state: public_mode
+  submission_state: open
+  priority_score: 35
+  matched_categories: []
+  has_api: true
+  api_targets:
+  - asset: engineeringblog.yelp.com
+    type: URL
+    severity: none
+  - asset: blog.yelp.com
+    type: URL
+    severity: none
+  - asset: www.yelp-ir.com
+    type: URL
+    severity: none
+  - asset: cloud.e.yelp-business.com
+    type: URL
+    severity: none
+  - asset: yelp-press.com
+    type: URL
+    severity: none
+  - asset: yelp.careers
+    type: URL
+    severity: none
+  - asset: yelptop100.com
+    type: URL
+    severity: low
+  reports_resolved: 0
+  bounty_ranges: {}
+  response_efficiency: 0
+  analysis_date: '2025-08-20T18:18:00.373323'
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  estimated_value: 950.0
+attack_patterns:
+  idor:
+    endpoints:
+    - /search
+    - /api/v*/search
+    - /query
+    - /filter
+    - /export
+    - /booking
+    - /reservation
+    severity: medium
+    bounty_range: $1000-$3000
+    avg_bounty: 2000
+    success_rate: 0.4
+  user_enum:
+    endpoints:
+    - /users
+    - /api/users
+    - /settings/users
+    - /members
+    severity: low-medium
+    bounty_range: $500-$1500
+    avg_bounty: 1000
+    success_rate: 0.6
+  ssrf:
+    endpoints:
+    - /webhook
+    - /callback
+    - /integration
+    - /proxy
+    severity: high
+    bounty_range: $2000-$5000
+    avg_bounty: 3500
+    success_rate: 0.2
+  info_disclosure:
+    endpoints:
+    - /api
+    - /graphql
+    - /.git
+    - /config
+    severity: low
+    bounty_range: $200-$800
+    avg_bounty: 500
+    success_rate: 0.7
+  auth_bypass:
+    endpoints:
+    - /admin
+    - /portal
+    - /dashboard
+    - /settings
+    severity: critical
+    bounty_range: $3000-$10000
+    avg_bounty: 6500
+    success_rate: 0.15
+  mass_assignment:
+    endpoints:
+    - /create
+    - /update
+    - /object
+    - /api/v*/objects
+    - /users/create
+    - /profile/update
+    severity: high
+    bounty_range: $1500-$4000
+    avg_bounty: 2500
+    success_rate: 0.35
+  bac:
+    endpoints:
+    - /profile
+    - /account
+    - /permissions
+    - /roles
+    - /user/*
+    - /org/*
+    severity: high
+    bounty_range: $2000-$5000
+    avg_bounty: 4000
+    success_rate: 0.25
+  api_rate_limit:
+    endpoints:
+    - /api/*
+    - /search
+    - /export
+    - /query
+    severity: medium
+    bounty_range: $800-$2000
+    avg_bounty: 1500
+    success_rate: 0.5
+  jwt_misconfiguration:
+    endpoints:
+    - /auth
+    - /login
+    - /refresh
+    - /token
+    severity: critical
+    bounty_range: $3000-$8000
+    avg_bounty: 5500
+    success_rate: 0.1
+methodology:
+  idor_success_rate: 40% on CRM/SaaS/Travel
+  proven_on: HubSpot ($1700-$3500 earned)
+  time_investment: 5-10 hours per program
+  tools:
+  - Search API testing
+  - Authorization bypass
+  - User enumeration
+  - Booking ID manipulation

@@ -1,0 +1,30 @@
+Subject: Bug Bounty Test Account Access Request - HackerOne Username: <YOUR_H1_USERNAME>
+
+Dear Braze Security Team,
+
+I am participating in your HackerOne bug bounty program under the username "<YOUR_H1_USERNAME>" and need assistance accessing the test environment.
+
+Account Details:
+- Successfully registered via: https://bug-bounty.k8s.tools-001.d-use-1.braze.com/
+- Auto-created accounts: <TEST_ACCOUNT_EMAIL>, <TEST_ACCOUNT_EMAIL>  
+- Organization created: "Security Testing - Bug Bounty"
+
+Issue:
+- Unable to log in to https://bug-bounty-dashboard.k8s.tools-001.d-use-1.braze-dev.com/
+- Login attempts return "Invalid email or password"
+- Password reset appears non-functional
+
+Request:
+Could you please provide the correct login credentials for these test accounts, or advise on the proper authentication process?
+
+Current Testing Progress:
+- Following all bug bounty policy requirements (X-Bug-Bounty headers, rate limiting)
+- Discovered authenticated endpoints /users and /events (returning 401 errors)
+- Ready to test cross-organization access controls per program guidelines
+- Need authentication to continue responsible testing
+
+Thank you for your assistance. Please let me know if you need any additional information.
+
+Best regards,
+<YOUR_H1_USERNAME>
+HackerOne Bug Bounty Hunter

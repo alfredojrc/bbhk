@@ -1,0 +1,1 @@
+"""Report generation system for bug bounty submissions."""

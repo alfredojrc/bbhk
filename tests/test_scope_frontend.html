@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope Frontend Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .scope-item { padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+        .in-scope { border-left: 4px solid #28a745; background: #f0fdf4; }
+        .out-of-scope { border-left: 4px solid #dc3545; background: #fef2f2; }
+    </style>
+</head>
+<body>
+    <h1>BBHK Scope Frontend Test</h1>
+    <p>Testing the updated scope functionality with security warnings</p>
+    
+    <div id="testResults"></div>
+    
+    <h2>API Tests</h2>
+    <button onclick="testProgramScope()">Test Program Scope API</button>
+    <button onclick="testScopeSearch()">Test Scope Search API</button>
+    <button onclick="testCampaignScope()">Test Campaign Scope API</button>
+    <button onclick="testSecurityWarnings()">Test Security Warnings</button>
+    
+    <h2>Live Scope Data</h2>
+    <div id="scopeData"></div>
+
+    <script>
+        const API_BASE = 'http://<YOUR_HOSTNAME>:8000';
+        
+        function addResult(test, result, details = '') {
+            const div = document.createElement('div');
+            div.className = `test-result ${result}`;
+            div.innerHTML = `<strong>${test}:</strong> ${result.toUpperCase()} ${details}`;
+            document.getElementById('testResults').appendChild(div);
+        }
+        
+        async function testProgramScope() {
+            try {
+                const response = await fetch(`${API_BASE}/api/programs/581/scope`);
+                const data = await response.json();
+                
+                if (data.scope && data.statistics) {
+                    addResult('Program Scope API', 'pass', `- Found ${data.scope.length} targets with security warning`);
+                    
+                    // Test security warning
+                    if (data.statistics.security_warning) {
+                        addResult('Security Warning Present', 'pass', `- "${data.statistics.security_warning}"`);
+                    } else {
+                        addResult('Security Warning Missing', 'fail', '- No security warning in response');
+                    }
+                } else {
+                    addResult('Program Scope API', 'fail', '- Invalid response structure');
+                }
+            } catch (error) {
+                addResult('Program Scope API', 'fail', `- Error: ${error.message}`);
+            }
+        }
+        
+        async function testScopeSearch() {
+            try {
+                const response = await fetch(`${API_BASE}/api/scope/search?eligible_for_bounty=1&limit=5`);
+                const data = await response.json();
+                
+                if (data.results && data.statistics) {
+                    addResult('Scope Search API', 'pass', `- Found ${data.results.length} eligible targets`);
+                    
+                    // Verify all results are in-scope
+                    const allEligible = data.results.every(r => r.eligible_for_bounty === 1);
+                    if (allEligible) {
+                        addResult('Eligible Filter Working', 'pass', '- All results are eligible for bounty');
+                    } else {
+                        addResult('Eligible Filter Broken', 'fail', '- Some results not eligible');
+                    }
+                } else {
+                    addResult('Scope Search API', 'fail', '- Invalid response structure');
+                }
+            } catch (error) {
+                addResult('Scope Search API', 'fail', `- Error: ${error.message}`);
+            }
+        }
+        
+        async function testCampaignScope() {
+            try {
+                const response = await fetch(`${API_BASE}/api/campaigns/465/scope`);
+                const data = await response.json();
+                
+                if (data.scope && data.statistics) {
+                    addResult('Campaign Scope API', 'pass', `- Campaign ${data.campaign_name} has ${data.scope.length} targets`);
+                    
+                    // Check statistics
+                    const stats = data.statistics;
+                    addResult('Scope Statistics', 'info', `- In-scope: ${stats.in_scope}, Out-of-scope: ${stats.out_of_scope}`);
+                } else {
+                    addResult('Campaign Scope API', 'fail', '- Invalid response structure');
+                }
+            } catch (error) {
+                addResult('Campaign Scope API', 'fail', `- Error: ${error.message}`);
+            }
+        }
+        
+        async function testSecurityWarnings() {
+            try {
+                // Test with mixed scope data
+                const response = await fetch(`${API_BASE}/api/scope/search?limit=10`);
+                const data = await response.json();
+                
+                const inScope = data.results.filter(r => r.eligible_for_bounty === 1).length;
+                const outScope = data.results.filter(r => r.eligible_for_bounty === 0).length;
+                
+                addResult('Mixed Scope Data', 'info', `- In-scope: ${inScope}, Out-of-scope: ${outScope}`);
+                
+                if (data.statistics.security_warning) {
+                    addResult('Security Warning System', 'pass', '- Security warnings are active');
+                } else {
+                    addResult('Security Warning System', 'fail', '- No security warnings found');
+                }
+                
+                // Display sample scope items
+                displayScopeItems(data.results.slice(0, 5));
+                
+            } catch (error) {
+                addResult('Security Warnings Test', 'fail', `- Error: ${error.message}`);
+            }
+        }
+        
+        function displayScopeItems(items) {
+            const container = document.getElementById('scopeData');
+            container.innerHTML = '<h3>Sample Scope Items with Security Indicators</h3>';
+            
+            items.forEach(item => {
+                const isEligible = item.eligible_for_bounty === 1;
+                const scopeClass = isEligible ? 'in-scope' : 'out-of-scope';
+                const statusText = isEligible ? '✅ SAFE TO TEST' : '❌ FORBIDDEN';
+                
+                const div = document.createElement('div');
+                div.className = `scope-item ${scopeClass}`;
+                div.innerHTML = `
+                    <strong>${item.target || 'Unknown Target'}</strong>
+                    <span style="float: right; font-weight: bold;">${statusText}</span><br>
+                    <small>Type: ${item.target_type || 'URL'} | Program: ${item.program_name || 'Unknown'}</small>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        // Auto-run basic tests
+        setTimeout(() => {
+            addResult('Frontend Test Page', 'pass', '- Page loaded successfully');
+            testProgramScope();
+        }, 500);
+    </script>
+</body>
+</html>

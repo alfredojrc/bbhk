@@ -1,0 +1,64 @@
+services:
+  ondo-oracle-monitor:
+    build: .
+    container_name: ondo-oracle-monitor-72h
+    restart: unless-stopped
+    volumes:
+      # Mount environment variables
+      - ../.env:/app/.env:ro
+      # Persistent logs directory
+      - ./logs:/app/logs
+      # Persistent data directory
+      - ./data:/app/data
+      # Mount monitoring scripts (for development)
+      - ./real_oracle_monitor.js:/app/real_oracle_monitor.js:ro
+      - ./enhanced_real_arbitrage_poc.js:/app/enhanced_real_arbitrage_poc.js:ro
+    environment:
+      - NODE_ENV=production
+      - MONITORING_DURATION=72
+      - SETTLEMENT_MONITORING=true
+      - LOG_LEVEL=info
+    labels:
+      - "description=Ondo Finance Oracle Price Divergence Monitor"
+      - "duration=72 hours"
+      - "purpose=Bug bounty evidence collection"
+      - "target=Real oracle feeds vs simulated data"
+    networks:
+      - ondo-monitoring
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(0)"]
+      interval: 5m
+      timeout: 30s
+      start_period: 1m
+      retries: 3
+
+  # Optional: Simple web interface for monitoring status
+  monitor-dashboard:
+    image: nginx:alpine
+    container_name: ondo-monitor-dashboard
+    ports:
+      - "8080:80"
+    volumes:
+      - ./logs:/usr/share/nginx/html/logs:ro
+      - ./dashboard.html:/usr/share/nginx/html/index.html:ro
+    depends_on:
+      - ondo-oracle-monitor
+    networks:
+      - ondo-monitoring
+    restart: unless-stopped
+
+networks:
+  ondo-monitoring:
+    driver: bridge
+    labels:
+      - "purpose=Ondo Finance oracle monitoring network"
+
+volumes:
+  ondo-logs:
+    driver: local
+    labels:
+      - "purpose=Oracle monitoring logs"
+  ondo-data:
+    driver: local
+    labels:
+      - "purpose=Price divergence data"

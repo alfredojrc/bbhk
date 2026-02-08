@@ -1,0 +1,103 @@
+# Platform Configurations
+
+platforms:
+  hackerone:
+    name: "HackerOne"
+    api_base: "https://api.hackerone.com/v1"
+    auth_type: "api_key"
+    rate_limit:
+      requests_per_minute: 100
+      burst_limit: 10
+    endpoints:
+      programs: "/programs"
+      submissions: "/reports"
+      bounties: "/bounties"
+    rules:
+      max_programs_per_scan: 50
+      scan_interval_hours: 4
+      submission_cooldown_minutes: 60
+    legal:
+      terms_url: "https://hackerone.com/terms"
+      contact_required: true
+      disclosure_policy: "coordinated"
+
+  bugcrowd:
+    name: "Bugcrowd"
+    api_base: "https://api.bugcrowd.com/v2"
+    auth_type: "bearer_token"
+    rate_limit:
+      requests_per_minute: 60
+      burst_limit: 5
+    endpoints:
+      programs: "/programs"
+      submissions: "/submissions"
+      bounties: "/bounties"
+    rules:
+      max_programs_per_scan: 30
+      scan_interval_hours: 6
+      submission_cooldown_minutes: 120
+    legal:
+      terms_url: "https://bugcrowd.com/terms"
+      contact_required: false
+      disclosure_policy: "coordinated"
+
+  intigriti:
+    name: "Intigriti"
+    api_base: "https://api.intigriti.com/core"
+    auth_type: "oauth2"
+    rate_limit:
+      requests_per_minute: 120
+      burst_limit: 15
+    endpoints:
+      programs: "/programs"
+      submissions: "/submissions"
+      bounties: "/bounties"
+    rules:
+      max_programs_per_scan: 40
+      scan_interval_hours: 3
+      submission_cooldown_minutes: 90
+    legal:
+      terms_url: "https://intigriti.com/terms"
+      contact_required: true
+      disclosure_policy: "coordinated"
+
+  yeswehack:
+    name: "YesWeHack"
+    api_base: "https://api.yeswehack.com/v1"
+    auth_type: "api_key"
+    rate_limit:
+      requests_per_minute: 80
+      burst_limit: 8
+    endpoints:
+      programs: "/programs"
+      submissions: "/reports"
+      bounties: "/hunters/bounties"
+    rules:
+      max_programs_per_scan: 25
+      scan_interval_hours: 8
+      submission_cooldown_minutes: 180
+    legal:
+      terms_url: "https://yeswehack.com/terms"
+      contact_required: true
+      disclosure_policy: "full"
+
+# Global Platform Rules
+global_rules:
+  respect_robots_txt: true
+  max_concurrent_requests: 3
+  user_agent_required: true
+  ssl_verify: true
+  timeout_seconds: 30
+  
+# Legal Compliance
+compliance:
+  gdpr_compliance: true
+  data_retention_days: 365
+  anonymize_data: true
+  audit_trail: true
+  
+# Platform Discovery
+discovery:
+  auto_detect_new_platforms: false
+  validate_platform_health: true
+  platform_status_check_minutes: 30

@@ -1,0 +1,136 @@
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: bbhk-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API
+    environment:
+      - QDRANT__LOG_LEVEL=INFO
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      # Enable API key authentication for production
+      # - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY:-changeme}
+    volumes:
+      - ./data/qdrant:/qdrant/storage
+      - ./config/qdrant:/qdrant/config
+    networks:
+      - bbhk-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # MCP Server for Qdrant
+  mcp-server-qdrant:
+    build:
+      context: ./docker/mcp-qdrant
+      dockerfile: Dockerfile
+    container_name: bbhk-mcp-qdrant
+    restart: unless-stopped
+    ports:
+      - "8000:8000"  # REST API
+      - "8001:8001"  # MCP HTTP Server
+    environment:
+      - FASTMCP_HOST=0.0.0.0
+      - QDRANT_URL=http://qdrant:6333
+      # - QDRANT_API_KEY=${QDRANT_API_KEY:-changeme}
+      - COLLECTION_NAME=bbhk-project
+      - EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+      - LOG_LEVEL=INFO
+      # Additional MCP configurations
+      - TOOL_STORE_DESCRIPTION=Store bug bounty research, vulnerabilities, and code snippets
+      - TOOL_FIND_DESCRIPTION=Search for bug bounty patterns, vulnerabilities, and related code
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - bbhk-network
+    volumes:
+      - ./memory/mcp:/app/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+  # Main BBHK Application (extended)
+  bbhk:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    container_name: bbhk-app
+    environment:
+      - BBHK_DB_PATH=/data/bbhk.db
+      - BBHK_CONFIG_PATH=/app/core/config/system.yaml
+      - BBHK_WORKSPACE=/workspace
+      - LOG_LEVEL=INFO
+      # Qdrant connection
+      - QDRANT_URL=http://qdrant:6333
+      # - QDRANT_API_KEY=${QDRANT_API_KEY:-changeme}
+      - QDRANT_COLLECTION=bbhk-project
+    volumes:
+      - ./data:/data
+      - ./workspace:/workspace
+      - ./core/config:/app/core/config:ro
+      - ./logs:/app/logs
+    networks:
+      - bbhk-network
+    ports:
+      - "8080:8080"  # Web dashboard
+    restart: unless-stopped
+    depends_on:
+      - qdrant
+      - mcp-server-qdrant
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Simple web dashboard  
+  dashboard:
+    image: nginx:alpine
+    container_name: bbhk-dashboard
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    networks:
+      - bbhk-network
+    ports:
+      - "8081:80"
+    depends_on:
+      - bbhk
+    restart: unless-stopped
+
+networks:
+  bbhk-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  qdrant_data:
+    driver: local
+  bbhk_data:
+    driver: local

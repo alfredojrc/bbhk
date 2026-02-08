@@ -1,0 +1,393 @@
+metadata:
+  generated: '2025-08-20 18:18:03'
+  total_programs: 20
+  total_potential_monthly: $120800
+  methodology: IDOR-focused with proven HubSpot pattern
+top_targets:
+- name: Booking.com
+  handle: bookingcom
+  priority_score: 160
+  estimated_value: $2750
+  monthly_potential: $11000
+  has_api: true
+  categories:
+  - booking
+  applicable_attacks:
+  - idor
+  - user_enum
+  - info_disclosure
+  - bac
+  api_endpoints:
+  - url: booking.com
+    severity: critical
+  - url: secure.booking.com
+    severity: critical
+  - url: careers.booking.com
+    severity: critical
+  - url: https://iphone-xml.booking.com/json/
+    severity: critical
+  - url: https://secure-iphone-xml.booking.com/json/
+    severity: critical
+- name: Priceline
+  handle: priceline
+  priority_score: 110
+  estimated_value: $2725
+  monthly_potential: $10900
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - idor
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  api_endpoints:
+  - url: www.priceline.com
+    severity: critical
+  - url: secure.rezserver.com
+    severity: critical
+  - url: reservations.rezserver.com
+    severity: critical
+  - url: cruises.priceline.com
+    severity: critical
+  - url: api.rezserver.com
+    severity: critical
+- name: Adobe
+  handle: adobe
+  priority_score: 25
+  estimated_value: $2500
+  monthly_potential: $10000
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  - jwt_misconfiguration
+  api_endpoints:
+  - url: account.adobe.com
+    severity: critical
+  - url: auth.services.adobe.com
+    severity: critical
+  - url: fonts.adobe.com
+    severity: critical
+  - url: marketplace.magento.com
+    severity: critical
+  - url: repo.magento.com
+    severity: critical
+- name: HackerOne
+  handle: security
+  priority_score: 110
+  estimated_value: $1950
+  monthly_potential: $7800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  api_endpoints:
+  - url: hackerone.com
+    severity: critical
+  - url: api.hackerone.com
+    severity: critical
+  - url: www.hackerone.com
+    severity: critical
+  - url: errors.hackerone.net
+    severity: high
+  - url: app.pullrequest.com
+    severity: critical
+- name: Snapchat
+  handle: snapchat
+  priority_score: 90
+  estimated_value: $1950
+  monthly_potential: $7800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - bac
+  api_endpoints:
+  - url: kit.snapchat.com
+    severity: high
+  - url: snappublisher.snapchat.com
+    severity: high
+  - url: geofilters.snapchat.com
+    severity: high
+  - url: accounts.snapchat.com
+    severity: critical
+- name: AT&T
+  handle: att
+  priority_score: 75
+  estimated_value: $1925
+  monthly_potential: $7700
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  api_endpoints: []
+- name: GitLab
+  handle: gitlab
+  priority_score: 75
+  estimated_value: $1925
+  monthly_potential: $7700
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - auth_bypass
+  api_endpoints:
+  - url: customers.gitlab.com
+    severity: critical
+  - url: registry.gitlab.com
+    severity: critical
+  - url: gitlab.com
+    severity: critical
+- name: Vimeo
+  handle: vimeo
+  priority_score: 65
+  estimated_value: $1825
+  monthly_potential: $7300
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - mass_assignment
+  api_endpoints:
+  - url: www.vimeo.com
+    severity: critical
+  - url: player.vimeo.com
+    severity: critical
+  - url: api.vimeo.com
+    severity: critical
+  - url: vimeopro.com
+    severity: critical
+  - url: http://vimeo.com/ondemand
+    severity: critical
+- name: Airbnb
+  handle: airbnb
+  priority_score: 105
+  estimated_value: $1650
+  monthly_potential: $6600
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - ssrf
+  - info_disclosure
+  api_endpoints:
+  - url: www.airbnb.com
+    severity: critical
+  - url: next.airbnb.com
+    severity: critical
+  - url: api.airbnb.com
+    severity: critical
+  - url: support-api.airbnb.com
+    severity: critical
+  - url: assets.airbnb.com
+    severity: critical
+- name: Uber
+  handle: uber
+  priority_score: 65
+  estimated_value: $1500
+  monthly_potential: $6000
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  - jwt_misconfiguration
+  api_endpoints: []
+- name: Coinbase
+  handle: coinbase
+  priority_score: 80
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: '*.coinbase.com'
+    severity: critical
+  - url: '*.cbhq.net'
+    severity: critical
+  - url: pro.coinbase.com
+    severity: critical
+  - url: custody.coinbase.com
+    severity: critical
+  - url: commerce.coinbase.com
+    severity: critical
+- name: Slack
+  handle: slack
+  priority_score: 75
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: slack.com
+    severity: critical
+  - url: api.slack.com
+    severity: critical
+  - url: slackb.com
+    severity: critical
+  - url: app.slack.com
+    severity: critical
+  - url: edgeapi.slack.com
+    severity: critical
+- name: KAYAK
+  handle: kayak
+  priority_score: 70
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: www.kayak.com
+    severity: critical
+  - url: www.swoodoo.com
+    severity: critical
+  - url: www.checkfelix.com
+    severity: critical
+  - url: www.momondo.com
+    severity: critical
+  - url: www.cheapflights.com
+    severity: critical
+- name: Greenhouse.io
+  handle: greenhouse
+  priority_score: 60
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: app.greenhouse.io
+    severity: critical
+  - url: www.greenhouse.io
+    severity: high
+  - url: boards.greenhouse.io
+    severity: critical
+  - url: api.greenhouse.io
+    severity: critical
+  - url: onboarding.greenhouse.io
+    severity: critical
+- name: Automattic
+  handle: automattic
+  priority_score: 55
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: api.tumblr.com
+    severity: critical
+  - url: safe.tumblr.com
+    severity: critical
+  - url: secure.tumblr.com
+    severity: critical
+  - url: assets.tumblr.com
+    severity: critical
+  - url: embed.tumblr.com
+    severity: critical
+- name: Cloudflare Public Bug Bounty
+  handle: cloudflare
+  priority_score: 51
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories:
+  - cloud
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: dash.cloudflare.com
+    severity: critical
+  - url: cloudflareworkers.com
+    severity: critical
+  - url: '*.teams.cloudflare.com'
+    severity: critical
+  - url: api.cloudflare.com
+    severity: critical
+  - url: '*.cloudflare.com'
+    severity: critical
+- name: Airtable
+  handle: airtable
+  priority_score: 45
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: staging.airtable.com
+    severity: critical
+  - url: api-staging.airtable.com
+    severity: critical
+- name: WordPress
+  handle: wordpress
+  priority_score: 40
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: api.wordpress.org
+    severity: critical
+  - url: planet.wordpress.org
+    severity: critical
+- name: Ubiquiti Inc.
+  handle: ui
+  priority_score: 40
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints:
+  - url: store.ui.com
+    severity: critical
+  - url: community.ui.com
+    severity: critical
+  - url: ir.ui.com
+    severity: critical
+  - url: help.ui.com
+    severity: critical
+  - url: blog.ui.com
+    severity: critical
+- name: Yelp
+  handle: yelp
+  priority_score: 35
+  estimated_value: $950
+  monthly_potential: $3800
+  has_api: true
+  categories: []
+  applicable_attacks:
+  - user_enum
+  - info_disclosure
+  api_endpoints: []

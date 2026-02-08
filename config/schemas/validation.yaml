@@ -1,0 +1,413 @@
+# Data Validation Schemas for BBHK
+
+# Platform Schema
+platform_schema:
+  type: "object"
+  required: ["id", "name", "api_base", "auth_type"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^[a-z][a-z0-9_]*$"
+      maxLength: 50
+    name:
+      type: "string"
+      minLength: 1
+      maxLength: 100
+    api_base:
+      type: "string"
+      format: "uri"
+    auth_type:
+      type: "string"
+      enum: ["api_key", "bearer_token", "oauth2", "basic_auth"]
+    rate_limit_per_minute:
+      type: "integer"
+      minimum: 1
+      maximum: 1000
+    is_active:
+      type: "boolean"
+      default: true
+
+# Program Schema
+program_schema:
+  type: "object"
+  required: ["id", "platform_id", "external_id", "name"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^[a-z0-9][a-z0-9_-]*$"
+      maxLength: 100
+    platform_id:
+      type: "string"
+      pattern: "^[a-z][a-z0-9_]*$"
+    external_id:
+      type: "string"
+      maxLength: 100
+    name:
+      type: "string"
+      minLength: 1
+      maxLength: 200
+    description:
+      type: "string"
+      maxLength: 5000
+    url:
+      type: "string"
+      format: "uri"
+    scope_json:
+      type: "array"
+      items:
+        type: "object"
+        required: ["type", "target"]
+        properties:
+          type:
+            type: "string"
+            enum: ["domain", "subdomain", "ip_range", "mobile_app", "api"]
+          target:
+            type: "string"
+          description:
+            type: "string"
+    max_payout:
+      type: "number"
+      minimum: 0
+      maximum: 1000000
+    min_payout:
+      type: "number"
+      minimum: 0
+    currency:
+      type: "string"
+      pattern: "^[A-Z]{3}$"
+      default: "USD"
+    risk_level:
+      type: "string"
+      enum: ["low", "medium", "high"]
+      default: "medium"
+    program_type:
+      type: "string"
+      enum: ["web_app", "mobile_app", "api", "network", "iot", "other"]
+
+# Target Schema
+target_schema:
+  type: "object"
+  required: ["id", "program_id", "url", "type"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^tgt_[a-z0-9]{16}$"
+    program_id:
+      type: "string"
+    url:
+      type: "string"
+      format: "uri"
+    type:
+      type: "string"
+      enum: ["domain", "subdomain", "ip", "ip_range", "mobile_app", "api_endpoint", "other"]
+    priority:
+      type: "integer"
+      minimum: 1
+      maximum: 100
+      default: 50
+    is_active:
+      type: "boolean"
+      default: true
+
+# Finding Schema
+finding_schema:
+  type: "object"
+  required: ["id", "program_id", "title", "description", "severity", "steps_to_reproduce", "impact"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^find_[a-z0-9]{16}$"
+    program_id:
+      type: "string"
+    target_id:
+      type: "string"
+    agent_id:
+      type: "string"
+    title:
+      type: "string"
+      minLength: 10
+      maxLength: 200
+    description:
+      type: "string"
+      minLength: 50
+      maxLength: 5000
+    severity:
+      type: "string"
+      enum: ["critical", "high", "medium", "low", "info"]
+    cvss_score:
+      type: "number"
+      minimum: 0.0
+      maximum: 10.0
+    cwe_id:
+      type: "string"
+      pattern: "^CWE-[0-9]+$"
+    vulnerability_type:
+      type: "string"
+      enum: [
+        "xss", "sqli", "csrf", "idor", "rce", "lfi", "rfi", 
+        "xxe", "ssrf", "clickjacking", "open_redirect", 
+        "auth_bypass", "privilege_escalation", "info_disclosure",
+        "dos", "buffer_overflow", "crypto", "other"
+      ]
+    steps_to_reproduce:
+      type: "string"
+      minLength: 20
+      maxLength: 3000
+    impact:
+      type: "string"
+      minLength: 20
+      maxLength: 2000
+    recommendation:
+      type: "string"
+      maxLength: 2000
+    proof_of_concept:
+      type: "string"
+      maxLength: 5000
+    status:
+      type: "string"
+      enum: ["draft", "validated", "submitted", "duplicate", "resolved"]
+      default: "draft"
+    confidence_score:
+      type: "number"
+      minimum: 0.0
+      maximum: 1.0
+    false_positive_risk:
+      type: "number"
+      minimum: 0.0
+      maximum: 1.0
+
+# Agent Schema
+agent_schema:
+  type: "object"
+  required: ["id", "name", "type"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^agent_[a-z0-9]{12}$"
+    name:
+      type: "string"
+      minLength: 1
+      maxLength: 100
+    type:
+      type: "string"
+      enum: [
+        "platform_scanner", "program_analyzer", "subdomain_hunter",
+        "port_scanner", "web_scanner", "sql_tester", "xss_hunter",
+        "api_tester", "mobile_analyzer", "finding_validator",
+        "report_generator", "task_coordinator", "quality_assurance"
+      ]
+    status:
+      type: "string"
+      enum: ["idle", "busy", "paused", "error", "offline"]
+      default: "idle"
+    capabilities_json:
+      type: "array"
+      items:
+        type: "string"
+        enum: [
+          "platform_api_integration", "program_discovery", "scope_parsing",
+          "subdomain_enumeration", "port_scanning", "web_vulnerability_scanning",
+          "sql_injection_testing", "xss_detection", "api_testing",
+          "finding_validation", "report_generation", "task_orchestration"
+        ]
+    performance_score:
+      type: "number"
+      minimum: 0.0
+      maximum: 10.0
+
+# Task Schema
+task_schema:
+  type: "object"
+  required: ["id", "type", "description"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^task_[a-z0-9]{16}$"
+    agent_id:
+      type: "string"
+    program_id:
+      type: "string"
+    target_id:
+      type: "string"
+    type:
+      type: "string"
+      enum: [
+        "program_scan", "target_discovery", "subdomain_enum", "port_scan",
+        "web_scan", "sql_test", "xss_test", "api_test", "mobile_analysis",
+        "finding_validation", "report_generation", "quality_review"
+      ]
+    priority:
+      type: "integer"
+      minimum: 1
+      maximum: 100
+      default: 50
+    status:
+      type: "string"
+      enum: ["pending", "assigned", "running", "completed", "failed", "cancelled"]
+      default: "pending"
+    description:
+      type: "string"
+      minLength: 10
+      maxLength: 500
+    parameters_json:
+      type: "object"
+
+# Report Schema
+report_schema:
+  type: "object"
+  required: ["id", "finding_id", "platform_id"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^rpt_[a-z0-9]{16}$"
+    finding_id:
+      type: "string"
+    platform_id:
+      type: "string"
+    external_id:
+      type: "string"
+    status:
+      type: "string"
+      enum: ["draft", "submitted", "accepted", "rejected", "closed"]
+      default: "draft"
+    payout:
+      type: "number"
+      minimum: 0
+    currency:
+      type: "string"
+      pattern: "^[A-Z]{3}$"
+    feedback:
+      type: "string"
+      maxLength: 2000
+
+# Tool Execution Schema
+tool_execution_schema:
+  type: "object"
+  required: ["id", "tool_name", "command"]
+  properties:
+    id:
+      type: "string"
+      pattern: "^exec_[a-z0-9]{16}$"
+    agent_id:
+      type: "string"
+    task_id:
+      type: "string"
+    target_id:
+      type: "string"
+    tool_name:
+      type: "string"
+      enum: [
+        "nmap", "masscan", "subfinder", "assetfinder", "amass",
+        "nikto", "gobuster", "dirb", "sqlmap", "xssstrike",
+        "burp_suite", "postman", "mobsf", "frida"
+      ]
+    command:
+      type: "string"
+      minLength: 1
+      maxLength: 1000
+    exit_code:
+      type: "integer"
+    execution_time_ms:
+      type: "integer"
+      minimum: 0
+
+# Configuration Validation
+config_validation:
+  system_config:
+    type: "object"
+    required: ["version", "name", "limits"]
+    properties:
+      version:
+        type: "string"
+        pattern: "^\\d+\\.\\d+\\.\\d+$"
+      limits:
+        type: "object"
+        required: ["max_concurrent_agents", "max_files_per_directory"]
+        properties:
+          max_concurrent_agents:
+            type: "integer"
+            minimum: 1
+            maximum: 100
+          max_files_per_directory:
+            type: "integer"
+            minimum: 10
+            maximum: 1000
+
+  platform_config:
+    type: "object"
+    patternProperties:
+      "^[a-z][a-z0-9_]*$":
+        type: "object"
+        required: ["name", "api_base", "auth_type"]
+
+# Custom Validators
+custom_validators:
+  
+  # URL Validation for different target types
+  url_validators:
+    domain:
+      pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z]{2,}$"
+    subdomain:
+      pattern: "^[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$"
+    ip:
+      pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+    ip_range:
+      pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/([0-9]|[1-2][0-9]|3[0-2])$"
+
+  # Severity-CVSS Score Mapping
+  severity_cvss_mapping:
+    critical: 
+      min_score: 9.0
+      max_score: 10.0
+    high:
+      min_score: 7.0
+      max_score: 8.9
+    medium:
+      min_score: 4.0
+      max_score: 6.9
+    low:
+      min_score: 0.1
+      max_score: 3.9
+    info:
+      min_score: 0.0
+      max_score: 0.0
+
+# Validation Rules
+validation_rules:
+  
+  # Data Quality Rules
+  quality_rules:
+    - name: "title_uniqueness"
+      description: "Finding titles should be unique within a program"
+      scope: "finding"
+      validation: "unique_within_program"
+      
+    - name: "severity_cvss_consistency"
+      description: "CVSS score must match severity level"
+      scope: "finding"
+      validation: "cvss_severity_match"
+      
+    - name: "target_scope_validation"
+      description: "Targets must be within program scope"
+      scope: "target"
+      validation: "scope_inclusion"
+      
+    - name: "duplicate_prevention"
+      description: "Prevent duplicate findings"
+      scope: "finding"
+      validation: "similarity_check"
+      threshold: 0.85
+
+  # Business Rules
+  business_rules:
+    - name: "payout_range_validation"
+      description: "Payout must be within program range"
+      validation: "min_payout <= payout <= max_payout"
+      
+    - name: "submission_rate_limit"
+      description: "Limit submissions per day per program"
+      validation: "max_3_submissions_per_day"
+      
+    - name: "severity_evidence_requirement"
+      description: "Critical/High findings require PoC"
+      validation: "poc_required_for_high_severity"

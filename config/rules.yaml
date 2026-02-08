@@ -1,0 +1,146 @@
+# Rule Management Hierarchy
+
+# Customer-Level Rules (Highest Priority)
+customer:
+  risk_tolerance: "medium"  # low, medium, high
+  max_concurrent_targets: 5
+  preferred_platforms: ["hackerone", "bugcrowd"]
+  excluded_industries: ["healthcare", "government"]
+  max_budget_per_program: 10000
+  
+  tools:
+    allowed:
+      - "nmap"
+      - "nikto"
+      - "gobuster"
+      - "sqlmap"
+    restricted:
+      - "metasploit"  # Requires approval
+    forbidden:
+      - "destructive_tools"
+    
+  reporting:
+    auto_submit: false  # Manual review required
+    min_severity: "medium"
+    max_reports_per_day: 3
+    require_poc: true
+
+# Program Type Rules
+program_types:
+  web_application:
+    default_tools: ["nikto", "gobuster", "sqlmap"]
+    scan_depth: "normal"
+    timeout_minutes: 60
+    
+  mobile_application:
+    default_tools: ["mobsf", "frida"]
+    scan_depth: "deep"
+    timeout_minutes: 120
+    
+  network_infrastructure:
+    default_tools: ["nmap", "masscan"]
+    scan_depth: "normal" 
+    timeout_minutes: 45
+    
+  api_testing:
+    default_tools: ["postman", "burp"]
+    scan_depth: "deep"
+    timeout_minutes: 90
+
+# Severity-Based Rules
+severity_rules:
+  critical:
+    auto_report: false
+    manual_review: true
+    notify_immediately: true
+    max_attempts: 1
+    
+  high:
+    auto_report: false
+    manual_review: true
+    notify_immediately: false
+    max_attempts: 2
+    
+  medium:
+    auto_report: true
+    manual_review: false
+    notify_immediately: false
+    max_attempts: 3
+    
+  low:
+    auto_report: true
+    manual_review: false
+    notify_immediately: false
+    max_attempts: 5
+
+# Tool Safety Rules
+tool_safety:
+  network_scanning:
+    max_threads: 10
+    rate_limit_ms: 100
+    exclude_ranges:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+      
+  web_scanning:
+    max_requests_per_second: 5
+    follow_robots_txt: true
+    user_agent_required: true
+    respect_rate_limits: true
+    
+  exploitation:
+    require_approval: true
+    log_all_attempts: true
+    sandbox_required: true
+    rollback_capable: true
+
+# Finding Validation Rules
+validation:
+  required_fields:
+    - "title"
+    - "description" 
+    - "severity"
+    - "steps_to_reproduce"
+    - "impact"
+    
+  proof_of_concept:
+    required_for_severity: ["critical", "high"]
+    max_file_size_mb: 10
+    allowed_formats: ["png", "jpg", "gif", "txt", "log"]
+    
+  duplicate_detection:
+    enabled: true
+    similarity_threshold: 0.8
+    check_last_days: 30
+
+# Automation Rules
+automation:
+  max_runtime_hours: 8
+  auto_pause_on_errors: true
+  max_consecutive_failures: 3
+  
+  escalation:
+    notify_on_critical: true
+    pause_on_legal_issues: true
+    require_human_on_edge_cases: true
+    
+# Quality Assurance
+quality:
+  peer_review_required: true
+  min_report_quality_score: 7.0
+  auto_improve_reports: true
+  learning_from_rejections: true
+
+# Compliance & Legal
+compliance:
+  gdpr_compliance: true
+  log_data_access: true
+  data_anonymization: true
+  retention_period_days: 90
+  
+  legal_boundaries:
+    respect_scope: true
+    no_social_engineering: true
+    no_physical_access: true
+    no_dos_attacks: true

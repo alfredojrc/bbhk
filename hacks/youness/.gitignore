@@ -1,0 +1,81 @@
+# Youness Pentest - Git Ignore Rules
+# Prevents sensitive data from being committed
+
+# Evidence directories (contains screenshots, logs, sensitive findings)
+evidence_*/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+*.pcap
+*.pcapng
+
+# Scan results (may contain sensitive data)
+*_results.txt
+*_results.json
+*_results.xml
+*_output.txt
+nmap_*.xml
+nmap_*.nmap
+nmap_*.gnmap
+nuclei_*.txt
+sqlmap_*/
+burp_*.xml
+
+# Credentials and tokens
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*_credentials.txt
+*_tokens.txt
+*_api_keys.txt
+auth_*.txt
+
+# Database dumps
+*.sql
+*.dump
+*.csv
+*_dump_*.txt
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Burp Suite files
+burp-project-*.db
+burp-*.json
+
+# Tool-specific outputs
+.nuclei/
+.ffuf/
+.sqlmap/
+.metasploit/
+
+# Logs
+*.log
+error.log
+debug.log
+
+# Archives (may contain sensitive evidence)
+*.zip
+*.tar.gz
+*.tar.bz2
+*.7z
+*.rar
+
+# Exceptions - Keep these files
+!README.md
+!RECONNAISSANCE.md
+!VULNERABILITY_ASSESSMENT.md
+!GCP_RECON_METHODOLOGY.md
+!scripts/quick-recon.sh
+!resources/targets.txt
+!.gitignore

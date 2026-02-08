@@ -1,0 +1,426 @@
+#!/usr/bin/env python3
+"""
+BBHK Tools CLI - Command line interface for Kali tools management
+Integrates with existing ./vuln command system and vulnerability storage
+"""
+
+import sys
+import os
+import argparse
+import json
+from pathlib import Path
+from datetime import datetime
+
+# Add project root to path
+sys.path.append(str(Path(__file__).parent))
+
+try:
+    from scripts.kali_tools_manager import KaliToolsManager, ToolCategory
+    from scripts.integrate_tools_with_vulns import ToolVulnerabilityIntegrator
+    CLI_AVAILABLE = True
+except ImportError as e:
+    print(f"❌ CLI modules not available: {e}")
+    print("Run from project root: /home/kali/bbhk/")
+    sys.exit(1)
+
+
+class ToolsCLI:
+    """Command line interface for BBHK tools management"""
+    
+    def __init__(self):
+        self.tools_manager = KaliToolsManager()
+        self.integrator = ToolVulnerabilityIntegrator()
+        
+    def cmd_discover(self, args):
+        """Discover and register all available Kali tools"""
+        print("🔍 Discovering Kali tools...")
+        tools = self.tools_manager.discover_installed_tools()
+        print(f"Found {len(tools)} tool definitions")
+        
+        success = self.tools_manager.store_tools(tools)
+        if success:
+            print("✅ Tools successfully registered in database")
+            
+            # Show summary
+            report = self.tools_manager.generate_tool_report()
+            if report:
+                print(f"\n📊 DISCOVERY SUMMARY:")
+                print(f"Total tools: {report['summary']['total_tools']}")
+                print(f"Installed: {report['summary']['installed_tools']} ({report['summary']['installation_rate']}%)")
+                
+                if report.get('missing_high_value'):
+                    print(f"\n⚠️ High-value tools not installed:")
+                    for tool in report['missing_high_value'][:3]:
+                        print(f"  • {tool['name']}: ${tool['bounty_max']:,} potential")
+        else:
+            print("❌ Failed to register tools")
+    
+    def cmd_search(self, args):
+        """Search for tools by vulnerability type or keyword"""
+        query = args.query
+        limit = args.limit or 10
+        
+        print(f"🔍 Searching tools for: {query}")
+        
+        # Try vulnerability-specific search first
+        recommendations = self.tools_manager.recommend_tools_for_vulnerability(query, limit)
+        
+        if recommendations:
+            print(f"\n🎯 Tools for '{query}':")
+            for i, rec in enumerate(recommendations, 1):
+                status = "✅ INSTALLED" if rec.get("installed") else "❌ NOT INSTALLED"
+                complexity = "●" * rec.get("complexity", 2)
+                
+                print(f"\n{i}. {rec['tool_name']} {status}")
+                print(f"   Category: {rec['category']}")
+                print(f"   Complexity: {complexity} ({rec.get('complexity', 2)}/4)")
+                print(f"   Effectiveness: {rec.get('effectiveness', 0.5):.1%}")
+                print(f"   Time to results: {rec.get('time_to_results', 30)} minutes")
+                print(f"   Description: {rec['description'][:100]}...")
+                
+                if rec.get("examples"):
+                    print(f"   Example: {rec['examples'][0]}")
+                
+                if not rec.get("installed") and rec.get("installation"):
+                    print(f"   Install: {rec['installation']}")
+        else:
+            print(f"No tools found for '{query}'")
+    
+    def cmd_install(self, args):
+        """Install a specific tool"""
+        tool_name = args.tool_name
+        
+        print(f"🛠️ Installing tool: {tool_name}")
+        success = self.tools_manager.install_tool(tool_name)
+        
+        if success:
+            print(f"✅ {tool_name} installed successfully")
+        else:
+            print(f"❌ Failed to install {tool_name}")
+            print("Check installation command and dependencies")
+    
+    def cmd_list(self, args):
+        """List tools by category or show all"""
+        category = args.category
+        
+        if category:
+            try:
+                cat_enum = ToolCategory(category.lower())
+                tools = self.tools_manager.get_tools_by_category(cat_enum)
+                print(f"🔧 Tools in category: {category}")
+            except ValueError:
+                print(f"❌ Invalid category: {category}")
+                print(f"Valid categories: {', '.join([c.value for c in ToolCategory])}")
+                return
+        else:
+            # Show summary by category
+            report = self.tools_manager.generate_tool_report()
+            if report:
+                print("🔧 TOOLS BY CATEGORY:")
+                for cat in report.get('categories', []):
+                    print(f"\n{cat['category'].replace('_', ' ').title()}: {cat['count']} tools")
+                    print(f"  Average success rate: {cat['avg_success']:.1%}")
+                
+                if report.get('top_tools'):
+                    print(f"\n⭐ TOP PERFORMING TOOLS:")
+                    for tool in report['top_tools'][:5]:
+                        status = "✅" if tool.get('installed') else "❌"
+                        print(f"  {status} {tool['name']}: {tool['success_rate']:.1%} success, ${tool['bounty_max']:,} max")
+                return
+        
+        if not tools:
+            print(f"No tools found in category: {category}")
+            return
+        
+        print(f"Found {len(tools)} tools:")
+        for tool in tools:
+            status = "✅ INSTALLED" if tool['installed'] else "❌ NOT INSTALLED"
+            print(f"\n• {tool['name']} {status}")
+            print(f"  Description: {tool['description'][:80]}...")
+            print(f"  Success rate: {tool['success_rate']:.1%}")
+            print(f"  Max bounty potential: ${tool['bounty_max']:,}")
+    
+    def cmd_workflow(self, args):
+        """Create research workflow for vulnerability type and program"""
+        vuln_type = args.vulnerability_type
+        program = args.program
+        complexity = args.complexity or 2
+        
+        print(f"🎯 Creating workflow for {vuln_type} on {program}")
+        workflow = self.integrator.create_vulnerability_workflow(vuln_type, program, complexity)
+        
+        if "error" in workflow:
+            print(f"❌ {workflow['error']}")
+            return
+        
+        print(f"\n✅ WORKFLOW CREATED:")
+        print(f"Estimated time: {workflow['total_estimated_time']} minutes")
+        print(f"Success probability: {workflow['success_probability']:.1%}")
+        print(f"Complexity level: {complexity}/4")
+        
+        print(f"\n📋 PHASES:")
+        for i, phase in enumerate(workflow['phases'], 1):
+            print(f"\n{i}. {phase['phase'].title()} ({phase['estimated_time']} min)")
+            print(f"   {phase['description']}")
+            for tool in phase['tools']:
+                status = "✅" if tool.get('installed') else "❌"
+                print(f"   {status} {tool['tool_name']}: {tool.get('effectiveness', 0.5):.1%} effective")
+                if tool.get('examples'):
+                    print(f"      Example: {tool['examples'][0]}")
+        
+        # Option to start session
+        if args.start:
+            session_id = self.integrator.start_research_session(program, vuln_type, workflow)
+            if session_id > 0:
+                print(f"\n🚀 Started research session {session_id}")
+                print(f"Use: ./tools-cli session {session_id} to track progress")
+    
+    def cmd_session(self, args):
+        """Manage research sessions"""
+        if args.session_command == 'list':
+            sessions = self.integrator.get_active_sessions()
+            if not sessions:
+                print("No active research sessions")
+                return
+            
+            print(f"📊 ACTIVE RESEARCH SESSIONS ({len(sessions)}):")
+            for session in sessions:
+                print(f"\nSession {session['id']}: {session['vulnerability_target']} on {session['program_handle']}")
+                print(f"  Progress: {session['progress_percent']:.1f}%")
+                print(f"  Time spent: {session['time_spent_minutes']} minutes")
+                print(f"  Tools completed: {len(session['tools_completed'])}/{len(session['tools_planned'])}")
+                if session['findings']:
+                    print(f"  Findings: {len(session['findings'])} items")
+        
+        elif args.session_command == 'next':
+            if not args.session_id:
+                print("❌ Session ID required for 'next' command")
+                return
+            
+            next_action = self.integrator.get_next_recommended_action(args.session_id)
+            if "error" in next_action:
+                print(f"❌ {next_action['error']}")
+                return
+            
+            if "message" in next_action:
+                print(f"✅ {next_action['message']}")
+                if "recommendation" in next_action:
+                    print(f"💡 {next_action['recommendation']}")
+                return
+            
+            action = next_action['next_action']
+            progress = next_action['progress']
+            
+            print(f"🎯 NEXT ACTION for session {args.session_id}:")
+            print(f"Phase: {action['phase']}")
+            print(f"Tool: {action['tool_name']}")
+            print(f"Estimated time: {action['estimated_time']} minutes")
+            print(f"Effectiveness: {action['effectiveness']:.1%}")
+            
+            if action.get('installation_required'):
+                print(f"\n⚠️ INSTALLATION REQUIRED:")
+                print(f"{action['installation_command']}")
+            
+            if action.get('usage_examples'):
+                print(f"\n💡 USAGE EXAMPLES:")
+                for example in action['usage_examples'][:2]:
+                    print(f"  {example}")
+            
+            print(f"\n📊 SESSION PROGRESS:")
+            print(f"Completed: {progress['completed']}/{progress['total']} tools")
+            print(f"Time spent: {progress['time_spent']} minutes")
+        
+        elif args.session_command == 'update':
+            if not all([args.session_id, args.tool_name, args.time_spent]):
+                print("❌ Required: session_id, tool_name, time_spent")
+                return
+            
+            findings = args.findings.split(',') if args.findings else []
+            success = self.integrator.update_session_progress(
+                args.session_id,
+                args.tool_name,
+                int(args.time_spent),
+                findings
+            )
+            
+            if success:
+                print(f"✅ Updated session {args.session_id}")
+                # Show next action
+                next_action = self.integrator.get_next_recommended_action(args.session_id)
+                if "next_action" in next_action:
+                    print(f"🎯 Next: {next_action['next_action']['tool_name']}")
+            else:
+                print(f"❌ Failed to update session")
+    
+    def cmd_analyze(self, args):
+        """Analyze tool effectiveness and ROI"""
+        program = args.program if hasattr(args, 'program') else None
+        
+        print("📈 Analyzing tool effectiveness...")
+        analysis = self.integrator.analyze_tool_effectiveness(program)
+        
+        if not analysis or not analysis.get('tool_performance'):
+            print("No usage data available yet")
+            return
+        
+        scope = f" for {program}" if program else ""
+        print(f"📊 TOOL EFFECTIVENESS ANALYSIS{scope}:")
+        
+        if analysis['tool_performance']:
+            print(f"\n⭐ TOP PERFORMING TOOLS:")
+            for tool in analysis['tool_performance'][:5]:
+                roi = f"${tool['roi_per_hour']:,.0f}/hour" if tool['roi_per_hour'] > 0 else "No bounties"
+                print(f"  • {tool['tool_name']}: {tool['success_rate']:.1%} success")
+                print(f"    Used {tool['total_uses']} times, avg {tool['avg_time_minutes']:.1f}min, {roi}")
+        
+        if analysis.get('vulnerability_type_performance'):
+            print(f"\n🎯 VULNERABILITY TYPE SUCCESS:")
+            for vuln in analysis['vulnerability_type_performance'][:5]:
+                print(f"  • {vuln['vulnerability_type']}: {vuln['success_rate']:.1%} success")
+                print(f"    {vuln['attempts']} attempts, avg {vuln['avg_time_minutes']:.1f}min")
+    
+    def cmd_report(self, args):
+        """Generate comprehensive tools report"""
+        print("📊 Generating tools report...")
+        report = self.tools_manager.generate_tool_report()
+        
+        if not report:
+            print("❌ Failed to generate report")
+            return
+        
+        summary = report['summary']
+        print(f"\n🔧 KALI TOOLS INVENTORY REPORT")
+        print(f"Generated: {report['generated_at']}")
+        print("=" * 50)
+        
+        print(f"\n📈 SUMMARY:")
+        print(f"Total tools tracked: {summary['total_tools']}")
+        print(f"Currently installed: {summary['installed_tools']} ({summary['installation_rate']}%)")
+        
+        print(f"\n📊 BY CATEGORY:")
+        for cat in report.get('categories', [])[:8]:
+            print(f"  {cat['category'].replace('_', ' ').title()}: {cat['count']} tools")
+        
+        if report.get('top_tools'):
+            print(f"\n⭐ HIGHEST SUCCESS RATES:")
+            for tool in report['top_tools'][:5]:
+                status = "✅" if tool.get('installed') else "❌"
+                print(f"  {status} {tool['name']}: {tool['success_rate']:.1%} ({tool['bounty_max']:,} max bounty)")
+        
+        if report.get('missing_high_value'):
+            print(f"\n💰 HIGH-VALUE TOOLS NOT INSTALLED:")
+            for tool in report['missing_high_value']:
+                print(f"  • {tool['name']}: ${tool['bounty_max']:,} potential")
+                print(f"    Install: {tool['installation_command']}")
+        
+        print(f"\n💡 RECOMMENDATIONS:")
+        installed_rate = summary['installation_rate']
+        if installed_rate < 50:
+            print(f"  • Install more core tools (currently {installed_rate}%)")
+        if report.get('missing_high_value'):
+            print(f"  • Priority: Install high-bounty tools listed above")
+        print(f"  • Use './tools-cli workflow' to create research plans")
+    
+    def close(self):
+        """Clean up resources"""
+        self.tools_manager.close()
+        self.integrator.close()
+
+
+def main():
+    """Main CLI entry point"""
+    parser = argparse.ArgumentParser(
+        description="BBHK Tools CLI - Kali tools management for bug bounty hunting",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  ./tools-cli discover                                    # Discover all tools
+  ./tools-cli search "prompt injection"                  # Find tools for vulnerability
+  ./tools-cli install gobuster                           # Install specific tool
+  ./tools-cli list --category web_security               # List web security tools
+  ./tools-cli workflow "jwt_bypass" "uber" --start       # Create and start workflow
+  ./tools-cli session list                               # Show active sessions
+  ./tools-cli session next 1                             # Get next action for session 1
+  ./tools-cli analyze --program "chainlink"              # Analyze tool effectiveness
+  ./tools-cli report                                     # Generate full report
+        """
+    )
+    
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+    
+    # Discover command
+    discover_parser = subparsers.add_parser('discover', help='Discover and register Kali tools')
+    
+    # Search command
+    search_parser = subparsers.add_parser('search', help='Search tools by vulnerability type')
+    search_parser.add_argument('query', help='Vulnerability type or keyword to search')
+    search_parser.add_argument('--limit', type=int, help='Maximum results (default: 10)')
+    
+    # Install command
+    install_parser = subparsers.add_parser('install', help='Install a specific tool')
+    install_parser.add_argument('tool_name', help='Name of tool to install')
+    
+    # List command
+    list_parser = subparsers.add_parser('list', help='List tools by category')
+    list_parser.add_argument('--category', help='Tool category to filter by')
+    
+    # Workflow command
+    workflow_parser = subparsers.add_parser('workflow', help='Create research workflow')
+    workflow_parser.add_argument('vulnerability_type', help='Type of vulnerability to research')
+    workflow_parser.add_argument('program', help='Target program handle')
+    workflow_parser.add_argument('--complexity', type=int, default=2, help='Complexity level (1-4)')
+    workflow_parser.add_argument('--start', action='store_true', help='Start research session immediately')
+    
+    # Session command
+    session_parser = subparsers.add_parser('session', help='Manage research sessions')
+    session_parser.add_argument('session_command', choices=['list', 'next', 'update'], help='Session action')
+    session_parser.add_argument('session_id', nargs='?', type=int, help='Session ID')
+    session_parser.add_argument('--tool-name', help='Tool name for update')
+    session_parser.add_argument('--time-spent', type=int, help='Time spent in minutes')
+    session_parser.add_argument('--findings', help='Comma-separated findings')
+    
+    # Analyze command
+    analyze_parser = subparsers.add_parser('analyze', help='Analyze tool effectiveness')
+    analyze_parser.add_argument('--program', help='Filter by specific program')
+    
+    # Report command
+    report_parser = subparsers.add_parser('report', help='Generate comprehensive tools report')
+    
+    args = parser.parse_args()
+    
+    if not args.command:
+        parser.print_help()
+        return
+    
+    cli = ToolsCLI()
+    
+    try:
+        if args.command == 'discover':
+            cli.cmd_discover(args)
+        elif args.command == 'search':
+            cli.cmd_search(args)
+        elif args.command == 'install':
+            cli.cmd_install(args)
+        elif args.command == 'list':
+            cli.cmd_list(args)
+        elif args.command == 'workflow':
+            cli.cmd_workflow(args)
+        elif args.command == 'session':
+            cli.cmd_session(args)
+        elif args.command == 'analyze':
+            cli.cmd_analyze(args)
+        elif args.command == 'report':
+            cli.cmd_report(args)
+        else:
+            parser.print_help()
+    
+    except KeyboardInterrupt:
+        print("\n⚠️ Operation cancelled")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+    finally:
+        cli.close()
+
+
+if __name__ == "__main__":
+    main()

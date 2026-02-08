@@ -1,0 +1,4 @@
+#!/bin/bash
+# BBHK Tools CLI with virtual environment
+export PYTHONPATH="/home/kali/bbhk:$PYTHONPATH"
+/home/kali/bbhk/.venv/bin/python /home/kali/bbhk/tools-cli "$@"

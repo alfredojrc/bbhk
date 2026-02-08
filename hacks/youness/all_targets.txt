@@ -1,0 +1,6 @@
+dev.ihgroup.to
+test.ihgroup.to
+prod.ihgroup.to
+prod.hpch.ch
+dev.hpch.ch
+test.hpch.ch

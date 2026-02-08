@@ -1,0 +1,302 @@
+
+# IMPORTANT: Security files - NEVER commit these!
+.env
+.env.local
+.env.production
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+secrets/
+credentials/
+migration/.env
+SECURITY_TESTING_ACCOUNTS.md
+MANUAL_ACCOUNTS_DO_NOT_AUTOMATE.md
+MANUAL_XSS_VERIFICATION_STEPS.md
+
+# Personal config backups (contain credentials)
+CLAUDE.md.backup_*
+CLAUDE_BACKUP_*.md
+CLAUDE.md.backup*
+
+# Claude Flow generated files
+.claude/settings.json
+.claude/settings.local.json
+.mcp.json
+claude-flow.config.json
+.swarm/
+.hive-mind/
+memory/claude-flow-data.json
+memory/sessions/*
+!memory/sessions/README.md
+memory/agents/*
+!memory/agents/README.md
+coordination/memory_bank/*
+coordination/subtasks/*
+coordination/orchestration/*
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+claude-flow
+claude-flow.bat
+claude-flow.ps1
+hive-mind-prompt-*.txt
+
+# Claude Flow metrics (generated files)
+.claude-flow/
+*/.claude-flow/
+**/.claude-flow/metrics/
+
+# Roo / MCP configs (may contain tokens)
+.roo/
+.roomodes
+.geminiignore
+.gemini/
+
+# Node.js dependencies
+node_modules/
+**/node_modules/
+package-lock.json
+**/package-lock.json
+
+# Build artifacts
+out/
+**/out/
+cache/
+**/cache/
+
+# Docker volumes
+postgres-data/
+pgadmin-data/
+
+# Backups & archives
+backups/
+backup_*/
+backup_pre_cleanup_*.tar.gz
+*.tar.gz
+*.sql
+*.sql.gz
+*.dump
+archive/
+archives/
+!scripts/archive/
+
+# HackerOne API cache
+.cache/
+api_cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+temp/
+tmp/
+
+# =============================================
+# Large data files & generated reports
+# =============================================
+
+# Bounty target data (large JSON/TXT dumps)
+data/bounty_targets/hackerone_data.json
+data/bounty_targets/domains.txt
+data/bounty_targets/wildcards.txt
+data/program_details.json
+
+# Generated reports (timestamped JSON)
+reports/*.json
+reports/COMPLETE_DATA_SYNCHRONIZATION_REPORT.md
+
+# Analysis output (generated JSON)
+analysis/*.json
+
+# Generated data files
+*.csv
+embeddings_generation_report.json
+extracted_vulnerability_data.json
+performance_test_results.json
+report_*.json
+vulnerability_data_structured.csv
+PROGRAM_METRICS_ANALYSIS.json
+performance_test.py
+
+# =============================================
+# Research target data (private work product)
+# =============================================
+
+# HackerOne program data dumps (fetched via API)
+hacks/**/*_deep_dive_*.json
+hacks/**/*_program_*.json
+hacks/**/*_structured_scopes_*.json
+hacks/**/*_enhanced_*.json
+hacks/HACKERONE_PROGRAMS_FOR_GROK4.json
+hacks/_scan_programs/program_intelligence_report.json
+hacks/_scan_programs/sample_programs.json
+hacks/chia_network/paypal_race_report.json
+hacks/derived/
+
+# Target API schemas & test results
+hacks/hubspot/hubspot-*.json
+hacks/hubspot/SUBMISSION_*.json
+hacks/hubspot/*_proof.json
+hacks/hubspot/*_results.json
+hacks/hubspot/deliverables/*.json
+
+# Extracted smart contracts (from target codebases)
+hacks/ondo-finance/contracts/
+hacks/ondo-finance/deliverables/package.json
+hacks/ondo-finance/package.json
+hacks/ondo-finance/findings/*/evidence/*.json
+
+# Screenshots & evidence images
+hacks/**/*.png
+tests/screen*.png
+
+# Browser automation scripts (contain session data)
+hacks/braze/braze_login.js
+
+# Cookies and credentials
+hacks/*/cookies.txt
+hacks/*/WORKING_CREDENTIALS*
+
+# =============================================
+# Root-level personal research notes
+# =============================================
+
+# Status reports & analysis notes (personal)
+AI_EXPERT_REVIEWS_CONSOLIDATED.md
+AI_SETUP.md
+ATTACK_VECTORS_COMPREHENSIVE_2025.md
+BUG_BOUNTY_AGENTS_USAGE.md
+CHIA_NETWORK_ANALYSIS.md
+CHIA_NETWORK_DECISION.md
+CHIA_RECONSIDERATION.md
+CLAUDE_BUG_BOUNTY_AGENTS.md
+CLEANUP_AND_ARCHIVE.sh
+CODE_AUDIT_SEARCH_COMPLETE.md
+COMPLETE_BBHK_ANALYSIS_FOR_GROK4.md
+COMPREHENSIVE_METHODOLOGY_FRAMEWORK_V2.md
+COMPREHENSIVE_TEST_REPORT.md
+COMPREHENSIVE_VULNERABILITY_CROSS_REFERENCE_ANALYSIS.md
+CONSOLIDATED_ACTION_PLAN_2025.md
+CVE_2025_54794_POC.py
+DATA_ARCHITECTURE_COMPLETE.md
+DOCUMENTATION_UPDATE_COMPLETE.md
+EXPERT_AI_VERDICT_COMPARISON_REPORT_3303358.md
+FINAL_STATUS_REPORT.md
+FIXED-PORTAL-NO-CPU-ISSUES.md
+GROKY_IMPLEMENTATION_SUMMARY.md
+GROKY_QUICKSTART.md
+GROKY_V2_CONTEXT_PERSISTENCE.md
+HACKERONE_API_GUIDE.md
+HACKERONE_CASE_3306949_ANALYSIS.md
+HACKERONE_REPUTATION_SYSTEM_ANALYSIS.md
+HYBRID_ARCHITECTURE.md
+KNOWLEDGE_VERIFICATION_COMPLETE.md
+LESSONS_LEARNED_FIREBLOCKS.md
+MASTERMIND_EXPLOITATION_FRAMEWORK.md
+MASTER_VULNERABILITY_DOCUMENTATION.md
+MCP_CONFIGURATION_UPDATE_20251120.md
+MCP_FIX_REPORT_20251120.md
+MEMORY_INITIALIZATION_GUIDE.md
+MY_HACKERONE_PORTFOLIO_ANALYSIS.md
+PROJECT_CLEANUP_COMPLETE.md
+PROJECTDISCOVERY_COMPLETE_SETUP.md
+QUICK_START_BUG_BOUNTY.md
+REPORT_3303358_BOUNTY_ESTIMATE.md
+report_3303358_for_review.md
+report_3304131_analysis.md
+REPORT_3304131_CHAINLINK_ANALYSIS.md
+SPAWN-HIVE.sh
+SPOTIFY_BOOTSTRAP_HUNT.md
+STRATEGIC_BUG_BOUNTY_ACTION_PLAN.md
+STRATEGIC_PIVOT_ANALYSIS.md
+SYSTEM_STATUS_CONSOLIDATED.md
+TECHNOLOGY_VERIFICATION_QUICKSTART.md
+TKVF_PERSISTENCE_GUIDE.md
+TOOLS_INTEGRATION_GUIDE.md
+TOP_5_CODE_AUDIT_PROGRAMS_FINAL.md
+TOP_5_CODE_AUDIT_PROGRAMS.md
+VERIFICATION_EXAMPLE_STELLAR.md
+VULNERABILITY_DATA_ARCHITECTURE_SECTION.md
+VULNERABILITY_DATA_MANAGEMENT_SUMMARY.md
+WORKING-PORTAL-VALIDATED.md
+test-all-mcp-integration.js
+
+# Tool environments & external tools
+tools-cli/
+tools-cli-venv/
+tools/cloud/
+
+# Large data files (API fetched)
+data/hacker_api_programs_*.json
+data/linkedin_*.json
+data/linkedin_full_*.json
+data/campaign_data_*.json
+
+# Misc generated/personal files
+docs/bb-sites/hackerone/programs/chainlink/repositories
+docs/bb-sites/hackerone/programs/fireblocks_mpc/archive/research/code
+poc.js
+poc/
+project.yml
+query_memory.sh
+bug-bounty-hunt.sh
+direct-mcp-invoke.sh
+invoke-agent.py
+launch_next_gen_framework.sh
+verify-tech.sh
+vuln
+setup_missing_components.sh
+test_complete_workflow.py
+
+# Embedded git repositories
+hacks/hubspot/HubSpot-public-api-spec-collection/
+hacks/ondo-finance/resources/Web3-Security-Library/
+
+# Serena MCP memories and cache
+.serena/
+
+# Duplicate web backends (keep only main.py)
+web/backend/api_enhanced*.py
+web/backend/campaign_detail_api.py
+web/backend/main_optimized.py
+web/backend/main_updated.py
+web/backend/main_working.py
+web/backend/simple_api.py
+web/backend/start_api.py
+
+# uv lock file (generated)
+uv.lock
+
+# Coverage reports
+htmlcov/
+coverage.xml
+.coverage
+junit/

@@ -1,0 +1,3 @@
+prod.hpch.ch
+dev.hpch.ch
+test.hpch.ch

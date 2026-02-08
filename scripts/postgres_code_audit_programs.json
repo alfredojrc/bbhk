@@ -1,0 +1,496 @@
+[
+  {
+    "handle": "chainlink",
+    "name": "Chainlink",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/smartcontractkit/chainlink",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/smartcontractkit/chainlink-evm/tree/develop/contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/smartcontractkit/chainlink-solana/tree/develop/contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/smartcontractkit/external-adapters-js/",
+        "type": "SOURCE_CODE",
+        "max_severity": "high",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/smartcontractkit/staking-v0.1/tree/master/contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 65,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "agoric",
+    "name": "Agoric",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/Agoric/agoric-sdk/tree/master/packages/ERTP",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Agoric/agoric-sdk/tree/master/packages/zoe",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/endojs/endo/tree/master/packages/ses",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "brave",
+    "name": "Brave Software",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/brave-intl/bat-balance",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave-intl/bat-client",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave-intl/bat-go",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave-intl/bat-ledger",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave-intl/bat-publisher",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave-intl/publishers",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave/brave-core",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/brave/vault-updater",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "chia_network",
+    "name": "Chia Network",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/Chia-Network/chia-blockchain",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Chia-Network/chia-blockchain-gui",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Chia-Network/chia_rs",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Chia-Network/chiapos",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Chia-Network/chiavdf",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/Chia-Network/clvm_rs",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "circle-bbp",
+    "name": "Circle BBP",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "http://github.com/circlefin/noble-cctp",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/buidl-wallet-contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/evm-cctp-contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/evm-gateway-contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/noble-fiattokenfactory",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/solana-cctp-contracts",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/stablecoin-aptos",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/stablecoin-evm",
+        "type": "SMART_CONTRACT",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/stablecoin-sui",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/circlefin/sui-cctp",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "cosmos",
+    "name": "Cosmos",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/cosmos/gaia",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/cosmos/iavl",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/cosmos/ics23",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/cosmos/ledger-cosmos",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/iqlusioninc/crates/tree/main/signatory",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/iqlusioninc/tmkms",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/iqlusioninc/yubihsm.rs",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/skip-mev/go-fast-contracts",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "github",
+    "name": "GitHub",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "api.github.com",
+        "type": "URL",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "classroom.github.com",
+        "type": "URL",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "education.github.com",
+        "type": "URL",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "gist.github.com",
+        "type": "URL",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "github.com",
+        "type": "URL",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "gsa_bbp",
+    "name": "GSA Bounty",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/18f/docker-ruby-ubuntu",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/federalist",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/federalist-builder",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/federalist-docker-build",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/federalist-proxy",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/identity-idp",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/identity-saml-rails",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/18f/identity-saml-sinatra",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/gsa/data.gov",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/gsa/datagov-deploy",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 55,
+    "critical_max": 0,
+    "high_max": 0,
+    "medium_max": 0,
+    "response_time": null,
+    "bounty_time": null
+  },
+  {
+    "handle": "adobe",
+    "name": "Adobe",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/contentauth/c2pa-js",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/contentauth/c2pa-rs",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 45
+  },
+  {
+    "handle": "aleo",
+    "name": "Aleo",
+    "offers_bounties": true,
+    "max_bounty": 0.0,
+    "min_bounty": 0.0,
+    "code_scopes": [
+      {
+        "asset": "https://github.com/ProvableHQ/snarkOS",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      },
+      {
+        "asset": "https://github.com/ProvableHQ/snarkVM",
+        "type": "SOURCE_CODE",
+        "max_severity": "critical",
+        "eligible_for_bounty": true
+      }
+    ],
+    "roi_score": 45
+  }
+]

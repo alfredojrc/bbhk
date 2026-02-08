@@ -1,0 +1,28 @@
+# Youness Pentest - Target List
+# Last Updated: 2025-11-20
+
+# ===== IHGROUP.TO INFRASTRUCTURE =====
+# IP: 136.110.148.157 (Google LLC)
+
+https://test.ihgroup.to
+https://prod.ihgroup.to
+https://dev.ihgroup.to
+
+# ===== HPCH.CH INFRASTRUCTURE =====
+# IP: 34.8.134.55 (Google LLC)
+
+https://dev.hpch.ch
+https://test.hpch.ch
+https://prod.hpch.ch
+
+# ===== IP ADDRESSES =====
+136.110.148.157
+34.8.134.55
+
+# ===== NOTES =====
+# - All targets are AUTHORIZED for security testing
+# - Both IPs confirmed as Google Cloud Platform
+# - Multiple subdomains share same IPs (virtual hosting)
+# - Expected: Google Cloud Armor protection
+# - Status: Non-production, testing phase
+# - Owner: Youness (friend's project)

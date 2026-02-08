@@ -1,0 +1,144 @@
+a {
+  color: #e10707;
+  font-weight: normal;
+  text-decoration: none;
+  transition: all 0.2s ease-in 0s;
+}
+a:hover {
+  text-decoration: underline;
+  transition: all 0.2s ease-in 0s;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  margin: 0;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+header {
+  max-width: 1248px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: flex-start;
+}
+header img {
+  width: 207px;
+}
+
+.hero img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
+}
+.content h1 {
+  text-align: center;
+  margin: 50px 0;
+}
+.content h1 .light {
+  font-weight: normal;
+}
+.content h2 {
+  text-align: center;
+  margin: 50px 0;
+  font-weight: normal;
+}
+
+footer {
+  width: 100%;
+}
+footer .corp-container {
+  max-width: 1248px;
+  margin: auto;
+}
+footer .corp-container .corp-content {
+  overflow: hidden;
+  position: relative;
+  margin-top: 50px;
+}
+footer .corp-container .corp-content:after, footer .corp-container .corp-content:before {
+  background: linear-gradient(to right, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%);
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+}
+footer .corp-container .corp-content:after {
+  right: 0px;
+  top: 0px;
+  transform: rotateZ(180deg);
+}
+footer .corp-container .corp-content .corp-brands {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  padding: 64px 0px;
+  animation: 40s linear 0s infinite normal none running iToxuo;
+}
+footer .corp-container .corp-content .corp-brands .brand-link {
+  height: 70px;
+  width: 300px;
+  flex-shrink: 0;
+  margin-right: 0px;
+  text-align: center;
+  transition: fast 0s ease 0s;
+  font-size: 0px;
+  letter-spacing: initial;
+  padding: 4px;
+}
+footer .corp-container .corp-content .corp-brands .brand-link .brand-image {
+  max-height: 55px;
+  width: 300px;
+  height: 100%;
+  object-fit: contain;
+}
+footer .footer-container {
+  background-color: #f6f6f6;
+  padding: 40px 0;
+}
+footer .footer-container .footer-content {
+  max-width: 1248px;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  line-height: 130%;
+}
+footer .footer-container .footer-content .links {
+  margin-top: 30px;
+}
+@media only screen and (min-width: 599px) {
+  footer .footer-container .footer-content {
+    flex-direction: row;
+  }
+  footer .footer-container .footer-content .links {
+    margin-top: 0;
+  }
+}
+
+@keyframes iToxuo {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-5240px);
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

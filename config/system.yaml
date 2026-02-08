@@ -1,0 +1,72 @@
+# BBHK System Configuration
+
+version: "1.0.0"
+name: "Bug Bounty Hunting Kit"
+
+# Core System Limits
+limits:
+  max_concurrent_agents: 10
+  max_files_per_directory: 50
+  max_directory_depth: 3
+  max_findings_per_program: 1000
+  max_programs_active: 100
+
+# File Management
+file_management:
+  auto_cleanup: true
+  cache_expiry_days: 1
+  reports_archive_days: 90
+  findings_archive_days: 90
+  programs_inactive_days: 30
+
+# Agent System
+agents:
+  default_timeout_minutes: 30
+  state_save_interval_minutes: 5
+  state_cleanup_hours: 24
+  max_state_entries_per_agent: 100
+  coordination_strategy: "hierarchical"
+
+# Database
+database:
+  type: "sqlite"
+  path: "data/bbhk.db"
+  backup_interval_hours: 24
+  max_backup_files: 7
+
+# API Management
+api:
+  rate_limit_buffer: 0.8  # Use 80% of rate limit
+  retry_attempts: 3
+  timeout_seconds: 30
+  user_agent: "BBHK/1.0"
+
+# Security
+security:
+  sandbox_tools: true
+  validate_findings: true
+  encrypt_storage: true
+  credential_rotation_days: 30
+
+# Logging
+logging:
+  level: "INFO"
+  max_file_size_mb: 100
+  max_files: 5
+  format: "json"
+
+# Performance
+performance:
+  parallel_scans: 5
+  finding_cache_size: 1000
+  program_refresh_hours: 4
+  tool_timeout_minutes: 15
+
+# Monitoring
+monitoring:
+  health_check_interval_minutes: 5
+  metrics_retention_days: 30
+  alert_thresholds:
+    error_rate_percent: 5
+    response_time_seconds: 10
+    disk_usage_percent: 80

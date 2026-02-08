@@ -1,0 +1,227 @@
+version: '3.8'
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: bbhk-backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - DATABASE_URL=sqlite:///database/bbhk.db
+      - PYTHONPATH=/app
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./core/database:/app/database:rw
+      - ./logs:/app/logs:rw
+      - ./data:/app/data:rw
+      - ./reports:/app/reports:rw
+    ports:
+      - "8000:8000"
+    networks:
+      - bbhk-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend React Service
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: bbhk-frontend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - REACT_APP_ENV=production
+    ports:
+      - "3000:3000"
+    networks:
+      - bbhk-network
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: bbhk-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - bbhk-network
+    depends_on:
+      - backend
+      - frontend
+
+  # Redis for caching and task queues
+  redis:
+    image: redis:7-alpine
+    container_name: bbhk-redis
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - bbhk-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Qdrant Vector Database - MCP Server Integration
+  # Provides semantic search and vector storage for vulnerability intelligence
+  # MCP Integration: Accessible via qdrant-bbhk MCP server
+  # Collections: 10 optimized collections (bbhk_vulnerabilities, tools_registry, etc.)
+  qdrant:
+    image: qdrant/qdrant:v1.16.3
+    container_name: bbhk-qdrant
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    ports:
+      - "6333:6333"  # HTTP API (MCP connection)
+      - "6334:6334"  # gRPC API
+    volumes:
+      - qdrant-data:/qdrant/storage:rw
+      - ./config/qdrant/config.yaml:/qdrant/config/production.yaml:ro
+    networks:
+      - bbhk-network
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__SERVICE__HOST=0.0.0.0
+      - QDRANT__LOG_LEVEL=INFO
+      # Optional: Uncomment for API key authentication in production
+      # - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  # PostgreSQL for production (optional upgrade from SQLite)
+  postgres:
+    image: postgres:15-alpine
+    container_name: bbhk-postgres
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    environment:
+      - POSTGRES_DB=bbhk_production
+      - POSTGRES_USER=bbhk_user
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./core/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - bbhk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bbhk_user -d bbhk_production"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    profiles:
+      - production
+
+  # Prometheus for monitoring
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: bbhk-prometheus
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - bbhk-network
+    profiles:
+      - monitoring
+
+  # Grafana for dashboards
+  grafana:
+    image: grafana/grafana:11.5.1
+    container_name: bbhk-grafana
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?Set GRAFANA_PASSWORD in .env}
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - bbhk-network
+    profiles:
+      - monitoring
+
+networks:
+  bbhk-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  redis-data:
+    driver: local
+  postgres-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  qdrant-data:
+    driver: local

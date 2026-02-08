@@ -1,0 +1,276 @@
+# BBHK System Configuration
+# This file controls all system-wide settings
+# DO NOT DELETE - Essential for operation
+
+system:
+  version: "2.0.0"
+  environment: "production"
+  debug: false
+  
+# Claude API Configuration
+claude:
+  plan: "max"  # Using $200/month plan
+  weekly_hours: 240  # Minimum guaranteed
+  max_weekly_hours: 480  # Maximum available
+  daily_target: 34  # Hours per day target
+  session_limit: 50  # Monthly sessions
+  session_duration: 5  # Hours per session
+
+# Agent Configuration
+agents:
+  max_concurrent: 10
+  max_per_platform: 3
+  max_per_program: 2
+  rotation_interval: 180  # Minutes (3 hours)
+  memory_limit: "512MB"
+  cpu_limit: 0.5  # 50% of one core
+  
+  types:
+    discovery:
+      - platform_scanner
+      - program_analyzer
+      - scope_extractor
+    reconnaissance:
+      - subdomain_hunter
+      - port_scanner
+      - web_crawler
+    assessment:
+      - vulnerability_scanner
+      - manual_tester
+      - exploit_developer
+    reporting:
+      - finding_validator
+      - report_generator
+      - quality_checker
+
+# Platform Configuration
+platforms:
+  hackerone:
+    enabled: true
+    api_type: "graphql"
+    rate_limit: 600  # Per hour
+    auth_type: "oauth2"
+    
+  bugcrowd:
+    enabled: true
+    api_type: "rest"
+    rate_limit: 500  # Per hour
+    auth_type: "api_key"
+    
+  intigriti:
+    enabled: false
+    api_type: "rest"
+    rate_limit: 1000  # Per hour
+    auth_type: "bearer"
+    
+  yeswehack:
+    enabled: false
+    api_type: "rest"
+    rate_limit: 300  # Per hour
+    auth_type: "api_key"
+
+# Storage Configuration
+storage:
+  base_path: "/home/kali/bbhk"
+  max_total_size: "50GB"
+  
+  cache:
+    path: "data/cache"
+    max_size: "1GB"
+    ttl: 86400  # 24 hours in seconds
+    
+  logs:
+    path: "data/logs"
+    max_size: "500MB"
+    retention: 604800  # 7 days in seconds
+    rotation: "daily"
+    
+  evidence:
+    path: "data/evidence"
+    max_size: "10GB"
+    compression: true
+    encryption: true
+    
+  archive:
+    path: "archive"
+    compression: true
+    encryption: true
+    retention: "indefinite"
+
+# Database Configuration
+database:
+  type: "sqlite"
+  path: "data/bbhk.db"
+  backup_interval: 86400  # Daily
+  optimize_interval: 604800  # Weekly
+  
+  connection_pool:
+    min: 2
+    max: 10
+    timeout: 30
+
+# Simple API Keys (edit these with your real keys)
+api_keys:
+  hackerone:
+    username: "your_hackerone_username_here"
+    token: "your_hackerone_api_token_here"
+  bugcrowd:
+    token: "your_bugcrowd_api_token_here"
+  shodan:
+    api_key: "your_shodan_api_key_here"  # Optional but helpful
+  virustotal:
+    api_key: "your_virustotal_key_here"  # Optional
+
+# Security Configuration
+security:
+  encryption:
+    algorithm: "AES-256-GCM"
+    key_derivation: "PBKDF2"
+    iterations: 100000
+    
+  sandboxing:
+    enabled: true
+    network_isolation: true
+    filesystem_readonly: true
+    memory_limit: "1GB"
+    cpu_limit: 1.0
+    timeout: 3600  # 1 hour
+    
+  authentication:
+    require_api_keys: true
+    rotate_interval: 2592000  # 30 days
+    
+  audit:
+    enabled: true
+    log_all_operations: true
+    retain_days: 90
+
+# Rate Limiting
+rate_limits:
+  global:
+    requests_per_second: 10
+    burst_size: 50
+    
+  per_platform:
+    hackerone: 10
+    bugcrowd: 8
+    intigriti: 15
+    yeswehack: 5
+    
+  scanning:
+    concurrent_scans: 5
+    requests_per_target: 100
+    delay_between_requests: 100  # Milliseconds
+
+# Notification Configuration  
+notifications:
+  enabled: false
+  
+  channels:
+    email:
+      enabled: false
+      smtp_host: ""
+      smtp_port: 587
+      
+    slack:
+      enabled: false
+      webhook_url: ""
+      
+    discord:
+      enabled: false
+      webhook_url: ""
+      
+  events:
+    - critical_finding
+    - report_accepted
+    - payout_received
+    - agent_failure
+    - storage_warning
+
+# Performance Configuration
+performance:
+  cache_everything: true
+  compress_responses: true
+  use_connection_pooling: true
+  parallel_operations: true
+  batch_size: 10
+  
+  optimization:
+    deduplicate_findings: true
+    minimize_api_calls: true
+    aggressive_caching: true
+    lazy_loading: true
+
+# Maintenance Configuration
+maintenance:
+  auto_cleanup:
+    enabled: true
+    schedule: "0 * * * *"  # Hourly
+    
+  cache_cleanup:
+    enabled: true
+    max_age: 86400  # 24 hours
+    
+  log_rotation:
+    enabled: true
+    max_size: "100MB"
+    max_files: 7
+    
+  database_optimization:
+    enabled: true
+    schedule: "0 0 * * 0"  # Weekly
+    
+  backup:
+    enabled: true
+    schedule: "0 0 * * *"  # Daily
+    retention: 30  # Days
+
+# Feature Flags
+features:
+  ai_scanning: true
+  auto_reporting: true
+  duplicate_detection: true
+  smart_scheduling: true
+  predictive_targeting: true
+  neural_learning: true
+  
+# Monitoring
+monitoring:
+  metrics:
+    enabled: true
+    interval: 60  # Seconds
+    
+  health_check:
+    enabled: true
+    endpoint: "/health"
+    interval: 300  # 5 minutes
+    
+  alerting:
+    enabled: false
+    thresholds:
+      error_rate: 0.05  # 5%
+      response_time: 5000  # 5 seconds
+      storage_usage: 0.9  # 90%
+
+# Development Configuration
+development:
+  mock_mode: false
+  verbose_logging: false
+  skip_authentication: false
+  use_test_database: false
+  bypass_rate_limits: false
+
+# Metadata
+metadata:
+  config_version: "2.0.0"
+  last_updated: "2025-08-14T19:00:00Z"
+  managed_by: "BBHK Framework"
+  
+# DO NOT MODIFY BELOW THIS LINE
+# System will auto-update these values
+runtime:
+  start_time: null
+  agents_spawned: 0
+  findings_discovered: 0
+  reports_submitted: 0
+  total_payouts: 0
