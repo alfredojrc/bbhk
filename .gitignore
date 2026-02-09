@@ -292,8 +292,8 @@ web/backend/main_working.py
 web/backend/simple_api.py
 web/backend/start_api.py
 
-# uv lock file (generated)
-uv.lock
+# uv lock file - tracked for reproducible builds
+# uv.lock
 
 # Coverage reports
 htmlcov/
