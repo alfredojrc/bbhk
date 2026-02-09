@@ -1,8 +1,8 @@
 # BBHK TODO - Project Improvement Plan
 
-**Generated**: 2026-02-08
+**Generated**: 2026-02-08 | **Updated**: 2026-02-09
 **Project**: Bug Bounty Hunter Kit v3.0
-**Tracked Files**: 572 | **Python LoC**: ~10,800 (src/)
+**Tracked Files**: 523 | **Python LoC**: ~10,800 (src/)
 
 ---
 
@@ -18,9 +18,16 @@
   - `src/monitor/bugcrowd.py` -> `except (ValueError, IndexError, TypeError)`
   - `src/compliance/engine.py` -> `except (OSError, UnicodeDecodeError)`
 
-- [ ] **Fix `src/main.py` CLI startup crash**
-  - `from .core.database import db_manager` fails on import
-  - Module can't be run as `python -m src.main` without proper packaging
+- [x] **Fix `src/main.py` CLI startup crash**
+  - Added `src/__main__.py` entry point (`python -m src` now works)
+  - Fixed Click `--config` param name mismatch (was `config_file`)
+  - Fixed `config` import shadowing (renamed to `app_config`)
+  - Fixed loguru compression format (`"gzip"` -> `"gz"`)
+  - Fixed module-level `setup_logging()` call (deferred to CLI invocation)
+  - Fixed SQLAlchemy `metadata` reserved column name in AuditLog
+  - Fixed `pool_size`/`max_overflow` not supported by SQLite
+  - Added `aiosqlite` dependency for async SQLite support
+  - Updated `__version__` from 1.0.0 to 3.0.0
 
 ### Configuration
 
@@ -70,6 +77,7 @@
   | scikit-learn | 1.3.0 | 1.6.1 | Major |
   | pytest | 7.4.3 | 8.3.4 | Major |
   | + dnspython | (missing) | 2.7.0 | Added |
+  | + aiosqlite | (missing) | 0.22.1 | Added |
 
 - [ ] **Update ProjectDiscovery tools** (all have Jan 2026 releases)
   - nuclei v3.7.0, httpx v1.8.1, katana v1.4.0, subfinder v2.6.6
@@ -93,16 +101,18 @@
 ### Project Modernization
 
 - [x] **Migrate `setup.py` to `pyproject.toml`**
-  - Created PEP 621 compliant `pyproject.toml` with setuptools backend
+  - Created PEP 621 compliant `pyproject.toml` with `setuptools.build_meta` backend
   - Includes ruff, mypy, pytest, coverage tool configs
   - Optional deps: `[dev]`, `[ml]`, `[browser]`, `[all]`
+  - Console script: `bbhk = "src.main:cli"`
   - `setup.py` kept for backwards compatibility
 
-- [ ] **Install and adopt `uv` as package manager**
-  - 10-100x faster than pip (Rust-based, by Astral)
-  - `curl -LsSf https://astral.sh/uv/install.sh | sh`
-  - Replace `pip install -r requirements.txt` with `uv sync`
-  - Add `uv.lock` for reproducible builds
+- [x] **Install and adopt `uv` as package manager**
+  - Updated uv from v0.8.11 to v0.10.0
+  - `uv.lock` tracked for reproducible builds (4338 lines, 177 packages)
+  - `uv sync` replaces `pip install -r requirements.txt`
+  - `uv run bbhk --help` works out of the box
+  - CI/CD updated to use `astral-sh/setup-uv@v6`
 
 - [x] **Make heavy dependencies optional** (partially done)
   - Removed `tensorflow` from core requirements.txt (still in pyproject.toml `[ml]` extras)
@@ -132,6 +142,10 @@
   - Now uses `Path(__file__).resolve().parent` for proper resolution
   - Reads from `DATABASE_PATH` env var with proper fallback
 
+- [x] **Fix SQLAlchemy deprecation warnings**
+  - `declarative_base()` -> `sqlalchemy.orm.declarative_base()`
+  - `datetime.utcnow()` -> `datetime.now()` in API
+
 ### New MCP Integrations
 
 - [x] **Add ProjectDiscovery MCP server** to `.mcp.json`
@@ -145,19 +159,25 @@
 
 ### Testing
 
-- [ ] **Add unit tests for core modules** (currently 0% coverage)
-  - Priority modules: `src/core/config.py`, `src/core/database.py`,
-    `src/platforms/hackerone_client.py`
-  - Target: 60% coverage on `src/` directory
+- [x] **Add unit tests for core modules**
+  - `tests/test_config.py`: 9 tests (Config defaults, JSON loading, env overrides, save)
+  - `tests/test_database.py`: 8 tests (table creation, session scope, CRUD, rollback)
+  - Coverage: **97% on config.py**, **88% on database.py**
 
-- [ ] **Add API endpoint tests**
-  - `web/backend/main.py` has 0 tests
-  - Use `TestClient` from FastAPI
+- [x] **Add API endpoint tests**
+  - `tests/test_api.py`: 18 tests using FastAPI TestClient
+  - Tests: root, stats, programs (filtering, validation, pagination), search, targets
+  - Validation tests: limit bounds, offset bounds, search length
 
 - [ ] **Fix existing tests**
   - `tests/test_discovery.py` (16KB) - check if it runs
   - `tests/test-campaign-lifecycle-system.py` (29KB) - check if it runs
   - `tests/test_scope_frontend.html` - not a real test, move to docs/
+
+- [ ] **Increase test coverage above 50%**
+  - Current: 6% overall (core modules well covered, scanner/monitor untested)
+  - Add tests for `src/platforms/hackerone_client.py`
+  - Add tests for `src/scanner/` modules
 
 ### Docker Security
 
@@ -195,41 +215,45 @@
 
 ### New Tools & Platforms
 
-- [ ] **Evaluate Caido** (Rust-based Burp Suite alternative, v0.47.0+)
-  - Lower memory, cleaner UI, more affordable
+- [ ] **Evaluate Caido** (Rust-based Burp Suite alternative, production-ready)
+  - Plugin ecosystem now available
+  - Lower memory, cleaner UI, more affordable than Burp
   - Good for manual HTTP traffic analysis
-  - Not a full Burp replacement yet (no extensions)
 
 - [ ] **Register on huntr.com** (AI/ML bug bounty platform)
   - World's first AI/ML-specific bug bounty platform (by Protect AI)
   - Up to $50k for critical AI/ML vulnerabilities
-  - Growing attack surface as AI adoption increases
+  - Growing attack surface as AI adoption increases - blue ocean opportunity
 
-- [ ] **Add Semgrep AI-powered IDOR detection** (when out of private beta)
+- [ ] **Add Semgrep AI-powered IDOR detection** (request private beta access)
+  - 1.9x better IDOR detection vs traditional rules
   - 20,000+ rules, AI-powered detection for business logic flaws
   - Directly relevant to BBHK's focus on broken access control
 
-- [ ] **Monitor Microsoft Zero Day Quest** (Spring 2026)
-  - Largest-ever hacking event: Azure, Copilot, Identity, M365
+- [ ] **Monitor Microsoft Zero Day Quest** (Fall 2026)
+  - Spring 2026 event closed - prepare for Fall 2026
+  - Azure, Copilot, Identity, M365 targets
   - Copilot bounties up to $30,000
 
 ### Architecture
 
 - [ ] **Test Python 3.14 free-threaded build** for concurrent agents
   - PEP 779: GIL removal now supported (not experimental)
-  - Could significantly improve multi-agent scanning performance
+  - Wait for ecosystem maturity before adopting
 
 - [ ] **Evaluate pgvector as Qdrant alternative/complement**
   - If already running PostgreSQL, avoids extra infrastructure
   - Could replace Qdrant for simpler use cases
 
 - [x] **Add CI/CD pipeline** (GitHub Actions)
-  - Created `.github/workflows/ci.yml` with 5 jobs:
-    - **Lint**: ruff check + format check
-    - **Type Check**: mypy on `src/`
+  - Created `.github/workflows/ci.yml` with 5 jobs using `uv`:
+    - **Lint**: ruff check + format check (via `uv run`)
+    - **Type Check**: mypy on `src/` (via `uv run`)
     - **Test**: pytest with coverage (Python 3.11, 3.12, 3.13 matrix)
     - **Security**: Trivy filesystem scan with SARIF upload
     - **Docker**: Build backend + frontend images, Trivy image scan
+  - **Note**: CI file exists locally but NOT pushed to GitHub (needs `workflow` OAuth scope)
+  - To push: `gh auth refresh -h github.com -s workflow` (requires browser)
 
 ### Cleanup
 
@@ -263,9 +287,19 @@
 | Prometheus | latest | v3.2.1 | Pinned |
 | Grafana | latest | 11.5.1 | Pinned |
 | setup.py python_requires | >=3.8 | >=3.11 | Dropped EOL versions |
-| pyproject.toml | (none) | PEP 621 | New declarative config |
-| CI/CD | (none) | GitHub Actions | 5-job pipeline |
+| pyproject.toml | (none) | PEP 621 | Declarative config with setuptools.build_meta |
+| uv | 0.8.11 | 0.10.0 | Rust-based package manager, 10-100x faster |
+| CI/CD | (none) | GitHub Actions | 5-job pipeline with uv |
 | Docker security | (none) | Hardened | no-new-privileges, cap-drop, read-only |
+
+## Reference: Test Suite
+
+| Test File | Tests | Covers |
+|-----------|-------|--------|
+| `tests/test_config.py` | 9 | Config defaults, JSON loading, env overrides, save |
+| `tests/test_database.py` | 8 | Table creation, CRUD, session scope, rollback |
+| `tests/test_api.py` | 18 | All API endpoints, validation, filtering, 404s |
+| **Total** | **35** | **97% config, 88% database, 6% overall** |
 
 ## Reference: New MCP Servers
 
@@ -278,4 +312,4 @@
 
 ---
 
-*Last updated: 2026-02-08 by Claude Opus 4.6*
+*Last updated: 2026-02-09 by Claude Opus 4.6*
