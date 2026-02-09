@@ -55,7 +55,7 @@ async def root():
     return {
         "name": "BBHK Dashboard API",
         "status": "operational",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now().isoformat()
     }
 
 

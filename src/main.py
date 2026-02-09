@@ -10,7 +10,7 @@ from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from loguru import logger
 
-from .core.config import config
+from .core.config import config as app_config
 from .core.database import db_manager
 from .core.logger import setup_logging
 from .monitor.service import monitoring_service
@@ -28,18 +28,18 @@ console = Console()
 @click.option('--config', '-c', help='Configuration file path')
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
 @click.pass_context
-def cli(ctx, config_file, verbose):
+def cli(ctx, config, verbose):
     """Bug Bounty Hunting Framework - Automated ethical security research."""
     ctx.ensure_object(dict)
-    
+
     # Setup logging
     log_level = "DEBUG" if verbose else "INFO"
     setup_logging(log_level)
-    
+
     # Initialize configuration
-    if config_file:
-        config.config_file = config_file
-        config._load_config()
+    if config:
+        app_config.config_file = config
+        app_config._load_config()
     
     # Initialize database
     try:
@@ -59,7 +59,7 @@ def monitor():
 def monitor_start(interval):
     """Start program monitoring service."""
     async def start_monitoring():
-        config.monitor.check_interval = interval
+        app_config.monitor.check_interval = interval
         console.print(f"Starting program monitoring (interval: {interval}s)", style="blue")
         
         with Progress(
@@ -467,7 +467,7 @@ def init_framework(sample_data):
             asyncio.run(train_models())
         
         # Save default configuration
-        config.save_config()
+        app_config.save_config()
         console.print("✓ Configuration saved", style="green")
         
         console.print("\n[bold green]Framework initialized successfully![/bold green]")

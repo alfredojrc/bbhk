@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=75.0", "wheel"]
-build-backend = "setuptools.backends._legacy:_Backend"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "bug-bounty-framework"
@@ -59,6 +59,7 @@ dependencies = [
     "aiofiles>=24.1.0",
     "prometheus_client>=0.21.0",
     "dnspython>=2.7.0",
+    "aiosqlite>=0.20.0",
 ]
 
 [project.optional-dependencies]
@@ -66,6 +67,7 @@ dev = [
     "pytest>=8.3.0",
     "pytest-asyncio>=0.25.0",
     "pytest-cov>=6.0.0",
+    "httpx>=0.28.0",
     "ruff>=0.9.0",
     "mypy>=1.15.0",
 ]
@@ -91,7 +93,7 @@ Repository = "https://github.com/alfredojrc/bbhk"
 Issues = "https://github.com/alfredojrc/bbhk/issues"
 
 [tool.setuptools.packages.find]
-include = ["src*", "core*", "platforms*", "config*"]
+include = ["src*"]
 
 [tool.ruff]
 target-version = "py311"
@@ -149,4 +151,9 @@ exclude_lines = [
     "pragma: no cover",
     "if __name__ == .__main__.",
     "if TYPE_CHECKING:",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
 ]

@@ -30,7 +30,7 @@ def setup_logging(log_level: str = "INFO", log_file: str = "logs/bbhk.log"):
         level="DEBUG",
         rotation="10 MB",
         retention="30 days",
-        compression="gzip"
+        compression="gz"
     )
     
     # Audit log handler for compliance
@@ -42,12 +42,11 @@ def setup_logging(log_level: str = "INFO", log_file: str = "logs/bbhk.log"):
             filter=lambda record: "audit" in record["extra"],
             rotation="daily",
             retention="1 year",
-            compression="gzip"
+            compression="gz"
         )
 
 def get_audit_logger():
     """Get logger specifically for audit trail."""
     return logger.bind(audit=True)
 
-# Initialize logging
-setup_logging()
+# Deferred initialization - call setup_logging() explicitly from main.py

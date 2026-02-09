@@ -11,6 +11,7 @@ sqlalchemy==2.0.38
 alembic==1.14.1
 psycopg2-binary==2.9.10
 asyncpg==0.30.0
+aiosqlite==0.22.1
 
 # HashiCorp Vault for secrets management
 hvac==2.3.0

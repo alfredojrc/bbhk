@@ -8,7 +8,7 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, DateTime, Boolean,
     Text, Float, JSON, ForeignKey, Index, UniqueConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Session
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from loguru import logger
@@ -196,7 +196,7 @@ class AuditLog(Base):
     # Data
     before_state = Column(JSON)
     after_state = Column(JSON)
-    metadata = Column(JSON)
+    extra_data = Column("metadata", JSON)
     
     # Compliance
     compliant = Column(Boolean, default=True)
@@ -223,13 +223,12 @@ class DatabaseManager:
         """Initialize database connection."""
         db_url = db_url or config.database.url
         
-        # Synchronous engine
-        self.engine = create_engine(
-            db_url,
-            echo=config.database.echo,
-            pool_size=config.database.pool_size,
-            max_overflow=config.database.max_overflow
-        )
+        # Synchronous engine (SQLite doesn't support pool_size/max_overflow)
+        engine_kwargs = {"echo": config.database.echo}
+        if not db_url.startswith("sqlite"):
+            engine_kwargs["pool_size"] = config.database.pool_size
+            engine_kwargs["max_overflow"] = config.database.max_overflow
+        self.engine = create_engine(db_url, **engine_kwargs)
         
         # Async engine for async operations
         if db_url.startswith('sqlite:'):
